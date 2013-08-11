@@ -18,7 +18,7 @@ source[0]=$topdir-$version.tar.bz2
 # Global settings
 export CPPFLAGS="-I$prefix/include"
 export LDFLAGS="-L$prefix/lib -R$prefix/lib"
-configure_args="$configure_args --enable-utf8"
+configure_args+=(--enable-utf8)
 
 reg prep
 prep()

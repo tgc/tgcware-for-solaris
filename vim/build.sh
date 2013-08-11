@@ -27,7 +27,7 @@ export CPPFLAGS="-I/usr/tgcware/include"
 export LDFLAGS="-L$prefix/lib -R$prefix/lib"
 # What gui should we build?
 gui=motif
-configure_args='--prefix=$prefix --without-local-dir --enable-gui=$gui --with-features=huge --enable-multibyte --disable-perlinterp --disable-pythoninterp --disable-tclinterp --with-compiledby="<swpkg@jupiterrise.com>" --disable-netbeans'
+configure_args=(--prefix=$prefix --without-local-dir --enable-gui=$gui --with-features=huge --enable-multibyte --disable-perlinterp --disable-pythoninterp --disable-tclinterp --with-compiledby="<swpkg@jupiterrise.com>" --disable-netbeans)
 
 reg prep
 prep()

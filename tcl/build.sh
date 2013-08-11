@@ -17,7 +17,7 @@ source[0]=$topdir$version-src.tar.gz
 
 # Global settings
 export LDFLAGS="-L$prefix/lib -R$prefix/lib"
-configure_args="--prefix=$prefix --mandir=$prefix/$_mandir --disable-symbols --enable-man-symlinks"
+configure_args=(--prefix=$prefix --mandir=$prefix/$_mandir --disable-symbols --enable-man-symlinks)
 topsrcdir=$topdir$version
 
 majorver="${version%.*}"

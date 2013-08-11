@@ -30,7 +30,7 @@ __configure="../$topsrcdir/configure"
 make_build_target=bootstrap
 
 
-global_config_args="--prefix=$prefix --with-local-prefix=$prefix --with-gmp=$lprefix --with-mpfr=$lprefix --disable-nls --enable-shared"
+configure_args=(--prefix=$prefix --with-local-prefix=$prefix --with-gmp=$lprefix --with-mpfr=$lprefix --disable-nls --enable-shared)
 langs="--enable-languages=c,ada,c++,fortran,objc,obj-c++"
 linker="--without-gnu-ld --with-ld=/usr/ccs/bin/ld"
 assembler="--without-gnu-as --with-as=/usr/ccs/bin/as"
@@ -39,9 +39,9 @@ objdir=all_native
 [ "$_os" = "sunos57" ] && { langs="$langs,java --with-java-awt=xlib"; sol27=1; }
 [ "$arch" = "sparc" ] && { vendor="sun"; sparc=1; } || { vendor="pc"; intel=1; }
 [ "$arch" = "sparc" -a -n "$(isalist | grep sparcv9)" ] && { sparcv9=1; m64run=1; } || m64run=0
-[ "$arch" = "sparc" ] && global_config_args="$global_config_args --with-cpu=v7"
+[ "$arch" = "sparc" ] && configure_args+=(--with-cpu=v7)
 
-configure_args="$global_config_args $linker $assembler $langs $platform_configure_args"
+configure_args+=($linker $assembler $langs $platform_configure_args)
 
 LDFLAGS="-Wl,-R,$prefix/lib -Wl,-R,$lprefix/lib"
 

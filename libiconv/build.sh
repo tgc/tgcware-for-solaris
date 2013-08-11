@@ -17,7 +17,7 @@ source[0]=$topdir-$version.tar.gz
 
 # Global settings
 export LDFLAGS="-L$prefix/lib -R$prefix/lib"
-configure_args="$configure_args --enable-extra-encodings"
+configure_args+=(--enable-extra-encodings)
 
 reg prep
 prep()

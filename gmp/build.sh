@@ -19,7 +19,7 @@ source[0]=ftp://ftp.sunet.se/pub/gnu/gmp/$topdir-$version.tar.bz2
 export LDFLAGS="-L$prefix/lib -R$prefix/lib"
 [ "$_os" = "sunos56" ] && triplet="${arch}-sun-solaris2.6"
 [ "$_os" = "sunos57" ] && triplet="${arch}-sun-solaris2.7"
-configure_args="--host=$triplet --build=$triplet $configure_args --enable-cxx"
+configure_args=(--host=$triplet --build=$triplet "${configure_args[@]}" --enable-cxx)
 # otherwise configure tests will fail since they don't respect LDFLAGS :(
 export LD_LIBRARY_PATH="$prefix/lib"
 

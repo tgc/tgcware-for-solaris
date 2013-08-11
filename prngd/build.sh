@@ -23,7 +23,7 @@ cflags_os="-O2 -DSOLARIS"
 [ "$_os" = "sunos56" ] && cflags_os="-O2 -DSOLARIS26 -D__EXTENSIONS__"
 
 __configure="make"
-configure_args="CC=$CC CFLAGS=\\\"$cflags_os\\\" SYSLIBS=\\\"$syslibs\\\" DEFS=\\\"-DRANDSAVENAME=\\\"${prefix}/${_sysconfdir}/prngd/prngd-seed\\\" -DCONFIGFILE=\\\"${prefix}/${_sysconfdir}/prngd/prngd.conf\\\"\\\""
+configure_args=(CC=$CC CFLAGS="$cflags_os" SYSLIBS="$syslibs" DEFS="-DRANDSAVENAME=\\\"${prefix}/${_sysconfdir}/prngd/prngd-seed\\\" -DCONFIGFILE=\\\"${prefix}/${_sysconfdir}/prngd/prngd.conf\\\"")
 
 reg prep
 prep()
@@ -35,7 +35,8 @@ reg build
 build()
 {
     setdir source
-    ${__make} CC=$CC CFLAGS="$cflags_os" SYSLIBS="$syslibs" DEFS="-DRANDSAVENAME=\\\"${prefix}/${_sysconfdir}/prngd/prngd-seed\\\" -DCONFIGFILE=\\\"${prefix}/${_sysconfdir}/prngd/prngd.conf\\\""
+    echo "${configure_args[@]}"
+    ${__make} "${configure_args[@]}"
 }
 
 reg check

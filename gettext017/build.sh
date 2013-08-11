@@ -18,7 +18,7 @@ source[0]=$topdir-$version.tar.gz
 # Global settings
 export CPPFLAGS="-I$prefix/include"
 export LDFLAGS="-L$prefix/lib -R$prefix/lib"
-configure_args="$configure_args --with-libiconv-prefix=$prefix --disable-java --disable-openmp"
+configure_args+=(--with-libiconv-prefix=$prefix --disable-java --disable-openmp)
 
 reg prep
 prep()

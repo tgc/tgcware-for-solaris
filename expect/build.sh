@@ -19,7 +19,7 @@ patch[0]=expect-5.43-no-rpath.patch
 export CPPFLAGS="-I$prefix/include"
 export LDFLAGS="-L$prefix/lib -R$prefix/lib"
 
-configure_args="--prefix=$prefix --mandir=$prefix/$_mandir --with-tcl=${prefix}/${_libdir} --with-tclinclude=${prefix}/${_includedir}/tcl-private --with-tkinclude=${prefix}/${_includedir}/tk-private --with-tk=${prefix}/${_libdir} --enable-shared"
+configure_args=(--prefix=$prefix --mandir=$prefix/$_mandir --with-tcl=${prefix}/${_libdir} --with-tclinclude=${prefix}/${_includedir}/tcl-private --with-tkinclude=${prefix}/${_includedir}/tk-private --with-tk=${prefix}/${_libdir} --enable-shared)
 
 topsrcdir=$topdir-${version%.*}
 majorver=5.43

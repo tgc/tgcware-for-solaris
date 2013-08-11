@@ -31,9 +31,8 @@ make_build_target=bootstrap
 # Define abbreviated version number (for pkgdef)
 abbrev_ver=$(echo $version | ${__tr} -d '.')
 
-global_config_args="--prefix=$prefix --with-local-prefix=$prefix --disable-nls --enable-shared"
-langs="--enable-languages=c,c++,f77,objc,ada"
-configure_args="$global_config_args $langs $platform_configure_args"
+configure_args=(--prefix=$prefix --with-local-prefix=$prefix --disable-nls --enable-shared)
+configure_args+=(--enable-languages=c,c++,f77,objc,ada)
 objdir=cccgoa_native
 export CC=/export/home/tgc/gnat/bin/gcc
 export GNATROOT=/export/home/tgc/gnat

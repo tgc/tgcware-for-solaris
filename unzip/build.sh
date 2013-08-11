@@ -19,7 +19,7 @@ source[0]=${topdir}552.tar.gz
 shortroot=1
 __configure="make"
 make_build_target="CC=gcc -f unix/Makefile solaris"
-configure_args="$make_build_target"
+configure_args=($make_build_target)
 no_configure=1
 
 reg prep

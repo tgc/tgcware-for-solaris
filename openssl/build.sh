@@ -20,14 +20,14 @@ abbrev_ver=$(echo $version|${__sed} -e 's/\.//g')
 baseversion=$(echo $version|${__sed} -e 's/[a-zA-Z]//g')
 make_check_target="test"
 __configure="./Configure"
-shared_args="--prefix=$prefix --openssldir=${prefix}/${_sharedir}/ssl zlib shared"
+configure_args=(--prefix=$prefix --openssldir=${prefix}/${_sharedir}/ssl zlib shared)
 if [ "$arch" = "sparc" ]; then
     # For Solaris > 7 we default to sparcv8 ISA
-    configure_args="solaris-sparcv8-gcc $shared_args"
+    configure_args+=(solaris-sparcv8-gcc)
     # Solaris < 8 supports sparcv7 hardware
-    [ "$_os" = "sunos56" -o "$_os" = "sunos57" ] && configure_args="$shared_args solaris-sparcv7-gcc"
+    [ "$_os" = "sunos56" -o "$_os" = "sunos57" ] && configure_args+=(solaris-sparcv7-gcc)
 else
-    configure_args="$shared_args 386 solaris-x86-gcc" 
+    configure_args+=(386 solaris-x86-gcc)
 fi
 ignore_deps="LWperl"
 

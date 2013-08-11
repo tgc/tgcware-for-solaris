@@ -28,15 +28,13 @@ make_build_target=bootstrap
 abbrev_ver=$(echo $version | ${__tr} -d '.')
 
 # Configure args
-global_config_args="--prefix=$prefix --with-local-prefix=$prefix --with-libiconv-prefix=$lprefix --with-gmp=$lprefix --with-mpfr=$lprefix --disable-nls --enable-shared --enable-threads=posix95"
-langs="--enable-languages=c,ada,c++,f95,objc"
+configure_args=(--prefix=$prefix --with-local-prefix=$prefix --with-libiconv-prefix=$lprefix --with-gmp=$lprefix --with-mpfr=$lprefix --disable-nls --enable-shared --enable-threads=posix95)
+configure_args+=(--enable-languages=c,ada,c++,f95,objc)
 objdir=all_native
 # platform/arch specific options
-[ "$_os" = "sunos56" -a "$arch" = "i386" ] && platform_configure_args="--with-gnu-as --with-as=$lprefix/bin/gas"
-[ "$_os" = "sunos56" -a "$arch" = "i386" ] && platform_configure_args="$platform_configure_args --with-gnu-ld --with-ld=$lprefix/bin/gld"
+[ "$_os" = "sunos56" -a "$arch" = "i386" ] && configure_args+=(--with-gnu-as --with-as=$lprefix/bin/gas)
+[ "$_os" = "sunos56" -a "$arch" = "i386" ] && configure_args+=(--with-gnu-ld --with-ld=$lprefix/bin/gld)
 [ "$arch" = "sparc" ] && vendor="sun" || vendor="pc"
-
-configure_args="$global_config_args $langs $platform_configure_args"
 
 reg prep
 prep()
