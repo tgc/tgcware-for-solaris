@@ -6,11 +6,11 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=mpfr
-version=3.0.1
+version=3.1.2
 pkgver=1
 source[0]=http://www.mpfr.org/mpfr-current/$topdir-$version.tar.bz2
 # If there are no patches, simply comment this
-patch[0]=mpfr-3.0.1p4.patch
+#patch[0]=
 
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
@@ -23,8 +23,6 @@ reg prep
 prep()
 {
     generic_prep
-    setdir source
-    touch configure
 }
 
 reg build
