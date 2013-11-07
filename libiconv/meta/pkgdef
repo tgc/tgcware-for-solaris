@@ -8,6 +8,7 @@ pkgver="$pkgver"
 files(-,root,bin)
 default_docs
 $_bindir
+$_gnudir
 $_libdir/libiconv.so.2*
 $_libdir/libcharset.so.*
 $_libdir/preloadable_libiconv.so
