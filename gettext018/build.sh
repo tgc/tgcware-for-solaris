@@ -6,9 +6,9 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=gettext
-version=0.17
+version=0.18.3.1
 pkgver=1
-source[0]=$topdir-$version.tar.gz
+source[0]=ftp://ftp.sunet.se/pub/gnu/gettext/$topdir-$version.tar.gz
 # If there are no patches, simply comment this
 #patch[0]=
 
@@ -18,7 +18,9 @@ source[0]=$topdir-$version.tar.gz
 # Global settings
 export CPPFLAGS="-I$prefix/include"
 export LDFLAGS="-L$prefix/lib -R$prefix/lib"
-configure_args+=(--with-libiconv-prefix=$prefix --disable-java --disable-openmp)
+configure_args+=(--with-libiconv-prefix=$prefix --disable-java --disable-native-java --disable-openmp)
+
+gnu_link autopoint envsubst gettext gettext.sh gettextize msgattrib msgcat msgcmp msgcomm msgconv msgen msgexec msgfilter msgfmt msggrep msginit msgmerge msgunfmt msguniq ngettext recode-sr-latin xgettext
 
 reg prep
 prep()
@@ -43,6 +45,8 @@ install()
 {
     generic_install DESTDIR
     doc NEWS README COPYING
+    compat gettext 0.17 1 1
+    compat gettext 0.18.2 1 1
 }
 
 reg pack
