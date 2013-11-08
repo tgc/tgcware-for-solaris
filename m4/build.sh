@@ -6,7 +6,7 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=m4
-version=1.4.16
+version=1.4.17
 pkgver=1
 source[0]=ftp://ftp.sunet.se/pub/gnu/m4/$topdir-$version.tar.bz2
 # If there are no patches, simply comment this
@@ -18,6 +18,7 @@ source[0]=ftp://ftp.sunet.se/pub/gnu/m4/$topdir-$version.tar.bz2
 # Global settings
 export CPPFLAGS="-I$prefix/include"
 export LDFLAGS="-L$prefix/lib -R$prefix/lib"
+gnu_link m4
 
 reg prep
 prep()
@@ -41,6 +42,7 @@ reg install
 install()
 {
     generic_install DESTDIR
+    compat m4 1.4.16 1 2
 }
 
 reg pack
