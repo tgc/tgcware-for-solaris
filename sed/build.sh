@@ -6,11 +6,11 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=sed
-version=4.1.5
+version=4.2.2
 pkgver=1
-source[0]=$topdir-$version.tar.gz
+source[0]=ftp://ftp.sunet.se/pub/gnu/sed/$topdir-$version.tar.gz
 # If there are no patches, simply comment this
-#patch[0]=
+patch[0]=sed-4.2.2-fix-gnulib-locale_h.patch
 
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
@@ -18,6 +18,7 @@ source[0]=$topdir-$version.tar.gz
 # Global settings
 export CPPFLAGS="-I$prefix/include"
 export LDFLAGS="-L$prefix/lib -R$prefix/lib"
+gnu_link sed
 
 reg prep
 prep()
@@ -41,6 +42,7 @@ reg install
 install()
 {
     generic_install DESTDIR
+    rmdir ${stagedir}${prefix}/${_libdir}
     doc NEWS ChangeLog BUGS COPYING
 }
 
