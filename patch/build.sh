@@ -6,11 +6,11 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=patch
-version=2.5.4
+version=2.7.1
 pkgver=1
-source[0]=$topdir-$version.tar.gz
+source[0]=ftp://ftp.sunet.se/pub/gnu/patch/$topdir-$version.tar.bz2
 # If there are no patches, simply comment this
-patch[0]=patch-2.5.4-destdir.patch
+#patch[0]=
 
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
@@ -19,6 +19,7 @@ patch[0]=patch-2.5.4-destdir.patch
 export CPPFLAGS="-I$prefix/include"
 export LDFLAGS="-L$prefix/lib -R$prefix/lib"
 ac_overrides="ac_cv_path_ed_PROGRAM=/usr/bin/ed"
+gnu_link patch
 
 reg prep
 prep()
