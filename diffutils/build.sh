@@ -6,11 +6,11 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=diffutils
-version=2.8.1
+version=3.3
 pkgver=1
-source[0]=$topdir-$version.tar.gz
+source[0]=ftp://ftp.sunet.se/pub/gnu/diffutils/$topdir-$version.tar.xz
 # If there are no patches, simply comment this
-#patch[0]=
+patch[0]=diffutils-3.3-fix-locale-install.patch
 
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
@@ -18,6 +18,7 @@ source[0]=$topdir-$version.tar.gz
 # Global settings
 export CPPFLAGS="-I$prefix/include"
 export LDFLAGS="-L$prefix/lib -R$prefix/lib"
+gnu_link cmp diff diff3 sdiff
 
 reg prep
 prep()
@@ -41,6 +42,7 @@ reg install
 install()
 {
     generic_install DESTDIR
+    rmdir ${stagedir}${prefix}/${_libdir}
     doc NEWS THANKS AUTHORS COPYING
 }
 
