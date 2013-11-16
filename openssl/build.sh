@@ -6,8 +6,8 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=openssl
-version=1.0.0e
-pkgver=4
+version=1.0.1e
+pkgver=1
 source[0]=http://openssl.org/source/$topdir-$version.tar.gz
 # If there are no patches, simply comment this
 #patch[0]=
@@ -15,21 +15,23 @@ source[0]=http://openssl.org/source/$topdir-$version.tar.gz
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
 
+# For cpu settings
+. ${BUILDPKG_BASE}/gcc/build.sh.gcc.cpu
+
 # Global settings
 abbrev_ver=$(echo $version|${__sed} -e 's/\.//g')
 baseversion=$(echo $version|${__sed} -e 's/[a-zA-Z]//g')
 make_check_target="test"
 __configure="./Configure"
-configure_args=(--prefix=$prefix --openssldir=${prefix}/${_sharedir}/ssl zlib shared)
+configure_args=(--prefix=$prefix --openssldir=${prefix}/${_sharedir}/ssl zlib-dynamic shared)
 if [ "$arch" = "sparc" ]; then
-    # For Solaris > 7 we default to sparcv8 ISA
-    configure_args+=(solaris-sparcv8-gcc)
-    # Solaris < 8 supports sparcv7 hardware
-    [ "$_os" = "sunos56" -o "$_os" = "sunos57" ] && configure_args+=(solaris-sparcv7-gcc)
+    configure_args+=(solaris-sparc${gcc_arch}-gcc)
 else
     configure_args+=(386 solaris-x86-gcc)
 fi
-ignore_deps="LWperl"
+
+# Buildsystem is non-standard so we take the easy way out
+export LD_OPTIONS="-R$prefix/lib"
 
 reg prep
 prep()
@@ -45,14 +47,16 @@ build()
     ${__gsed} -i "s;@LIBDIR@;${prefix}/lib;g" Makefile.org
 
     if [ "$arch" = "i386" ]; then
-	# openssl defaults to --march=pentium which should be changed to --march=i386 --mtune=i686
-	${__sed} -e 's/-march=pentium/-march=i386 -mtune=i686/' Configure > Configure.myflags
-	${__mv} Configure.myflags Configure
-	chmod 755 Configure
+	# openssl defaults to --march=pentium which should be changed
+	${__gsed} -i "/solaris-x86-gcc/ s;-march=pentium;-march=$gcc_arch;" Configure
+	# There is no reason to disable inline asm
+	${__gsed} -i "/solaris-x86-gcc/ s; -DOPENSSL_NO_INLINE_ASM;;" Configure
     fi
+    # The -mv8 alias is not supported with newer gcc
+    ${__gsed} -i 's/mv8/mcpu=v8/g' Configure
 
-    echo $__configure $configure_args
-    $__configure $configure_args
+    echo $__configure "${configure_args[@]}"
+    $__configure "${configure_args[@]}"
 
     ${__gsed} -i "/^CFLAG=/s;CFLAG=;CFLAG=-I${prefix}/include;" Makefile
     ${__gsed} -i "/EX_LIBS/s;-lz;-L${prefix}/lib -R${prefix}/lib -lz;" Makefile
@@ -75,7 +79,7 @@ install()
     setdir ${stagedir}${prefix}/${_mandir}
     for j in $(${__ls} -1d man?)
     do
- 	cd $j
+	cd $j
 	for manpage in *
 	do
 	    if [ -L "${manpage}" ]; then
@@ -103,8 +107,7 @@ install()
     setdir $prefix/${_libdir}
     ${__tar} -cf - libcrypto.so.0.9.8 libssl.so.0.9.8 | (cd ${stagedir}${prefix}/${_libdir}; ${__tar} -xf -)
     compat ossl 0.9.8g 1 2
-    compat ossl 1.0.0 1 1
-    compat ossl 1.0.0a 1 2
+    # It *might* be compatible with 1.0.0 but I'm not going to risk it
 }
 
 reg pack
