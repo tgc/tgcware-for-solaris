@@ -1,0 +1,28 @@
+diff -urN openssh-6.4p1.pristine/configure openssh-6.4p1/configure
+--- openssh-6.4p1.pristine/configure	2013-11-08 02:41:15.000000000 +0100
++++ openssh-6.4p1/configure	2013-11-16 21:18:31.256018000 +0100
+@@ -7288,6 +7288,10 @@
+ 		{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+ $as_echo "no" >&6; }
+ 	fi
++	if test "$sol2ver" -ge 6; then
++	    # inet_ntop is in libresolv
++	    LIBS="$LIBS -lresolv"
++	fi
+ 
+ # Check whether --with-solaris-contracts was given.
+ if test "${with_solaris_contracts+set}" = set; then :
+diff -urN openssh-6.4p1.pristine/configure.ac openssh-6.4p1/configure.ac
+--- openssh-6.4p1.pristine/configure.ac	2013-08-04 13:48:41.000000000 +0200
++++ openssh-6.4p1/configure.ac	2013-11-16 21:10:36.603563000 +0100
+@@ -794,6 +794,10 @@
+ 	else
+ 		AC_MSG_RESULT([no])
+ 	fi
++	if test "$sol2ver" -ge 6; then
++	    # inet_ntop is in libresolv
++	    LIBS="$LIBS -lresolv"
++	fi
+ 	AC_ARG_WITH([solaris-contracts],
+ 		[  --with-solaris-contracts Enable Solaris process contracts (experimental)],
+ 		[

@@ -6,11 +6,11 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=openssh
-version=5.9p1
+version=6.4p1
 pkgver=1
 source[0]=ftp://ftp.sunet.se/pub/OpenBSD/OpenSSH/portable/$topdir-$version.tar.gz
 # If there are no patches, simply comment this
-#patch[0]=
+patch[0]=openssh-6.4p1-inet_ntop.patch
 
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
