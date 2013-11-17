@@ -6,26 +6,21 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=git
-version=1.7.2.3
+version=1.8.4.3
 pkgver=1
-source[0]=$topdir-$version.tar.bz2
-source[1]=$topdir-manpages-$version.tar.bz2
+source[0]=http://git-core.googlecode.com/files/$topdir-$version.tar.gz
+source[1]=http://git-core.googlecode.com/files/$topdir-manpages-$version.tar.gz
 # If there are no patches, simply comment this
-patch[0]=git-1.7.2.3-symlinks.patch
+patch[0]=git-1.8.1.5-inet_addrstrlen.patch
 
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
 
 # Global settings
 
-export ICONVDIR=$prefix
-export PERL_PATH=$prefix/bin/perl
-export SHELL_PATH=$prefix/bin/bash
 no_configure=1
 __configure="make"
 configure_args=
-# HACK: -e must be last or echo will think it's an argument
-__make="/usr/tgcware/bin/make -e"
 make_build_target="V=1"
 make_check_target="test"
 
@@ -34,20 +29,22 @@ prep()
 {
     generic_prep
     setdir source
-    # Solaris 2.6
     cat <<EOF> config.mak
-NO_EXPAT=YesPlease
-NO_TCLTK=YesPlease
+CC=gcc
+PERL_PATH=$prefix/bin/perl
+ICONVDIR=$prefix
+SANE_TOOL_PATH=/usr/tgcware/gnu:/usr/xpg6/bin:/usr/xpg4/bin
+NO_INSTALL_HARDLINKS=YesPlease
 BASIC_CFLAGS += -I/usr/tgcware/include
 BASIC_LDFLAGS += -L/usr/tgcware/lib -Wl,-R,/usr/tgcware/lib
-EXTLIBS += -lresolv
 NEEDS_LIBICONV = YesPlease
 NO_PYTHON = YesPlease
+INSTALL = /usr/tgcware/bin/ginstall
+TAR = /usr/tgcware/bin/gtar
+prefix=$prefix
+NEEDS_RESOLV = YesPlease
 # missing PTHREAD_MUTEX_RECURSIVE with posix95 pthreads
 NO_PTHREADS = YesPlease
-TAR = /usr/tgcware/bin/tar
-INSTALL = /usr/tgcware/bin/install
-prefix=$prefix
 EOF
 
 }
@@ -68,9 +65,11 @@ reg install
 install()
 {
     generic_install DESTDIR
+    mkdir -p ${stagedir}${prefix}/${_mandir}
     setdir ${stagedir}${prefix}/${_mandir}
-    ${__tar} -xjf $(get_source_absfilename "${source[1]}")
-    doc COPYING Documentation/RelNotes-${version}.txt README
+    ${__tar} -xf $(get_source_absfilename "${source[1]}")
+    chmod 755 ${stagedir}${prefix}/${_mandir}
+    doc COPYING Documentation/RelNotes/${version}.txt README
 
     # fix git symlink
     ${__rm} -f ${stagedir}${prefix}/libexec/git-core/git
@@ -81,15 +80,11 @@ install()
     ${__rm} -rf ${stagedir}${prefix}/${_libdir}/perl5/site_perl/*/*solaris
     ${__rm} -f ${stagedir}${prefix}/${_libdir}/perl5/site_perl/*/Error.pm
 
-    mkdir -p ${stagedir}${prefix}/${_mandir}
-    setdir ${stagedir}${prefix}/${_mandir}
-    ${__tar} -xvjf ${srcfiles}/${source[1]}
-    # Hopeless, absolutely hopeless :(
-    #setdir ${stagedir}${prefix}/${_libdir}/perl5/site_perl
-    #mkdir -p ${stagedir}/opt/csw/lib/perl/site_perl
-    #mv * ${stagedir}/opt/csw/lib/perl/site_perl
-    #setdir ${stagedir}${prefix}/${_libdir}
-    #rm -rf perl*
+    # Install completion support
+    ${__install} -Dp -m0644 contrib/completion/git-completion.bash \
+	${stagedir}${prefix}/${_datadir}/git-core/contrib/completion/git-completion.bash
+    ${__install} -Dp -m0644 contrib/completion/git-prompt.sh \
+	${stagedir}${prefix}/${_datadir}/git-core/contrib/completion/git-prompt.sh
 }
 
 reg pack
