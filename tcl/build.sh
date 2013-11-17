@@ -7,8 +7,8 @@
 # Check the following 4 variables before running the script
 topdir=tcl
 version=8.4.19
-pkgver=1
-source[0]=$topdir$version-src.tar.gz
+pkgver=2
+source[0]=ftp://ftp.tcl.tk/pub/tcl/tcl8_4/$topdir$version-src.tar.gz
 # If there are no patches, simply comment this
 #patch[0]=
 
@@ -43,6 +43,10 @@ install()
     ${__ln} -s tclsh${majorver} tclsh
     setdir ${stagedir}${prefix}/${_libdir}
     ${__ln} -s libtcl${majorver}.so libtcl.so
+    chmod 755 libtcl${majorver}.so
+    # Rerun strip
+    custom_install=1
+    generic_install
 
     # Grab headers
     ${__mkdir} -p ${stagedir}${prefix}/${_includedir}/tcl-private/{generic,unix}
