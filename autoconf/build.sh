@@ -7,7 +7,7 @@
 # Check the following 4 variables before running the script
 topdir=autoconf
 version=2.68
-pkgver=1
+pkgver=2
 source[0]=ftp://ftp.sunet.se/pub/gnu/autoconf/$topdir-$version.tar.bz2
 # If there are no patches, simply comment this
 #patch[0]=
