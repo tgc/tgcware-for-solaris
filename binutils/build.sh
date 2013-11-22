@@ -6,9 +6,9 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=binutils
-version=2.18
+version=2.23.2
 pkgver=1
-source[0]=$topdir-$version.tar.bz2
+source[0]=ftp://ftp.sunet.se/pub/gnu/binutils/$topdir-$version.tar.bz2
 # If there are no patches, simply comment this
 #patch[0]=
 
@@ -18,7 +18,7 @@ source[0]=$topdir-$version.tar.bz2
 # Global settings
 export CPPFLAGS="-I$prefix/include"
 export LDFLAGS="-L$prefix/lib -R$prefix/lib"
-configure_args+=(--disable-nls --program-prefix=g)
+configure_args+=(--disable-werror --program-prefix=g)
 
 reg prep
 prep()
@@ -42,13 +42,9 @@ reg install
 install()
 {
     generic_install DESTDIR
-    ${__rm} -f ${stagedir}${prefix}/${_mandir}/man1/{dlltool,nlmconv,windres,windmc}*
-    # Rename gc++filt
-    ${__mv} ${stagedir}${prefix}/${_bindir}/gc++filt ${stagedir}${prefix}/${_bindir}/c++filt
-
+    ${__rm} -f ${stagedir}${prefix}/${_mandir}/man1/g{dlltool,nlmconv,windres,windmc}*
     doc COPYING*
-    # This copy is very old. Autoconf has a much newer copy.
-    ${__rm} -f ${stagedir}${prefix}/${_infodir}/standards.*
+    compat binutils 2.18 1 1
 }
 
 reg pack
