@@ -1,0 +1,15 @@
+--- gcc-4.0.4/libjava/testsuite/lib/libjava.exp.orig	2006-04-11 00:01:37.000000000 +0200
++++ gcc-4.0.4/libjava/testsuite/lib/libjava.exp	2013-10-07 18:28:39.308315000 +0200
+@@ -35,6 +35,12 @@
+ 	    set i $j
+ 	}
+     }
++    for {set i [expr {$len - 1}]} {$i >= 0} {incr i -1} {
++	if {[string match "ld: warning: file *libiconv.so: attempted multiple inclusion of file" [lindex $tlist $i]]} {
++	    # Delete line
++	    set tlist [lreplace $tlist $i $i]
++	}
++    }
+     return [join $tlist \n]
+ }
+ 
