@@ -1,0 +1,28 @@
+# This defines the default cpu options to be passed on to
+# gcc and gmp configure scripts ($gcc_cpu and $gmp_host)
+#
+# The gcc bits depends on the definition of $abbrev_majorminor
+# usually provided by the gcc build.sh
+
+# In case this is used directly from build.sh (like with gmp)
+abbrev_majorminor=${abbrev_majorminor:-0}
+
+# Set default arch based on OS minimum cpu required
+case "${build_arch}-${gnu_os_ver}" in
+    i386-2.6)
+	gcc_arch=i386
+	gcc_cpu="--with-arch=$gcc_arch --with-tune=pentium"
+	gmp_host="i386-${vendor}-solaris${gnu_os_ver}"
+	;;
+    sparc-2.6)
+	gcc_arch=v7
+	gcc_cpu="--with-cpu=$gcc_arch"
+	gmp_host="sparc-${vendor}-solaris${gnu_os_ver}"
+	;;
+    *)
+	;;
+esac
+# For gcc < 3.4 and x86 there are no arch options
+[ $abbrev_majorminor -lt 34 -a "$vendor" = "pc" ] && gcc_cpu=
+
+# vim: set sw=4 sts=4 et ft=sh : #
