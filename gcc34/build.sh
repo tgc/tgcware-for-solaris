@@ -7,57 +7,43 @@
 # Check the following 4 variables before running the script
 topdir=gcc
 version=3.4.6
-pkgver=4
-source[0]=$topdir-$version.tar.bz2
+pkgver=5
+source[0]=ftp://ftp.sunet.se/pub/gnu/gcc/releases/$topdir-$version/$topdir-$version.tar.bz2
 ## If there are no patches, simply comment this
-#patch[0]=
+patch[0]=gcc-3.4.6-new-makeinfo.patch
+patch[1]=gcc-3.4.6-new-gas.patch
+patch[2]=gcc-3.4.6-gnat-share-make.patch
 
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
 
-# GCC package naming guide
-# gcc - c
-# gcc-c++ - cx
-# gcc-gnat - gn
-# gcc-objc - ob
-# gcc-objc++ - ox
-# gcc-java - jv
+# Common settings for gcc
+. ${BUILDPKG_BASE}/gcc/build.sh.gcc.common
 
 # Global settings
-prefix=/usr/tgcware/$topdir-$version
-__configure="../$topsrcdir/configure"
-make_build_target=bootstrap
 
-# Define abbreviated version number (for pkgdef)
-abbrev_ver=$(echo $version | ${__tr} -d '.')
-
-configure_args=(--prefix=$prefix --with-local-prefix=$prefix --disable-nls --enable-shared)
-configure_args+=(--enable-languages=c,c++,f77,objc,ada)
-objdir=cccgoa_native
-export CC=/export/home/tgc/gnat/bin/gcc
-export GNATROOT=/export/home/tgc/gnat
-export PATH=/export/home/tgc/gnat/bin:$PATH
-
-# Conditionals for pkgdef
-[ -n "$(isainfo | grep sparcv9)" ] && v9libs=1
-[ "$_os" = "sunos56" ] && sol26=1
-[ "$_os" = "sunos57" ] && sol27=1
+# This compiler is bootstrapped with gcc 3.3.6
+export PATH=/usr/tgcware/gcc33/bin:$PATH
 
 reg prep
 prep()
 {
     generic_prep
+    setdir source
+    ${__gsed} -i "s/@@GCCVERSION@@/$version/" gcc/ada/Makefile.in gcc/ada/bld.adb
+    # Set bugurl and vendor version
+    ${__gsed} -i "s|URL:[^>]*|URL:$gccbugurl|" gcc/version.c
+    ${__gsed} -i "s/$version/$version (release)/" gcc/version.c
+    ${__gsed} -i "s/(release)/($gccpkgversion)/" gcc/version.c
 }
 
 reg build
 build()
 {
-    setdir source
-    ${__mkdir} -p ../$objdir
-    echo "$__configure $configure_args"
-    setdir $srcdir/$objdir
-    ${__configure} $configure_args
-    ${__make} $make_build_target
+    setup_tools
+    ${__mkdir} -p ${srcdir}/$objdir
+    generic_build ../$objdir
+    # Build gnat
     setdir ${srcdir}/${objdir}
     ${__make} -C gcc gnatlib
     ${__make} -C gcc gnattools
@@ -73,29 +59,18 @@ install()
     generic_install
     ${__find} ${stagedir} -name '*.la' -print | ${__xargs} ${__rm} -f
 
-    # Prepare for split lib packages
-    lprefix=$topinstalldir
-    ${__mkdir} -p ${stagedir}${lprefix}/${_libdir}
-    setdir ${stagedir}${prefix}/${_libdir}
-    ${__tar} -cf - libgcc_s.so.1 libstdc++.so.6* libg2c.so.0* libobjc.so.1* |
-	(cd ${stagedir}${lprefix}/${_libdir}; ${__tar} -xvBpf -)
+    # Rearrange libraries
+    redo_libs
 
-    if [ "x$v9libs" != "x" ]; then
-	${__mkdir} -p ${stagedir}${lprefix}/${_libdir}/sparcv9
-	setdir ${stagedir}${prefix}/${_libdir}/sparcv9
-	${__tar} -cf - libgcc_s.so.1 libstdc++.so.6* libg2c.so.0* libobjc.so.1* |
-	    (cd ${stagedir}${lprefix}/${_libdir}/sparcv9; ${__tar} -xvBpf -)
-    fi
+    # Remove obsolete gccbug script
+    ${__rm} -f $stagedir$prefix/bin/gccbug
+
+    # Turn all the hardlinks in bin into symlinks
+    redo_bin
 
     # Place share/docs in the regular location
     prefix=$topinstalldir
     doc COPYING* BUGS FAQ MAINTAINERS NEWS
-
-    for pkg in libg2c0 libgcc_s1 libobjc1 libstdc++6
-    do
-	${__rm} -f $metadir/compver.$pkg
-	compat $pkg 3.4.6 1 $pkgver
-    done
 }
 
 reg check
@@ -103,13 +78,17 @@ check()
 {
     setdir source
     setdir ../$objdir
-    ${__make} -k check
+    if [ $multilib -eq 0 ]; then
+	${__make} -k check
+    else
+	${__make} -k RUNTESTFLAGS="--target_board='unix{,$multilib_testopt}'" check
+    fi
 }
 
 reg pack
 pack()
 {
-    iprefix=$topdir-$version
+    iprefix=${topdir}${abbrev_majorminor}
     generic_pack
 }
 
