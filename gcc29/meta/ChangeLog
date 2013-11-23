@@ -1,0 +1,5 @@
+CHANGELOG
+---------
+* Mon Sep 30 2013 Tom G. Christensen <swpkg@jupiterrise.com> - 2.95.3-1
+- Import from tgcware v2
+- Fix dependencies
