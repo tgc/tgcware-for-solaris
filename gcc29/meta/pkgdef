@@ -23,6 +23,7 @@ lib/$libsubdir/${arch}-${vendor}-solaris*/$version/SYSCALLS.c.X
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/alloca.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/assert.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/curses.h
+lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/float.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/inet/led.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/iso646.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/kcms
@@ -65,12 +66,14 @@ lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/cpuvar.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/ddidmareq.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/ddi_impldefs.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/debug.h
+lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/dktp/mlx/mlxdefs.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/ethernet.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/exec.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/exechdr.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/fs/hsfs_isospec.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/fs/hsfs_spec.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/fs/pc_label.h
+lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/gldpriv.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/gp1cmds.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/gp1var.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/ieeefp.h
@@ -82,7 +85,9 @@ lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/msg.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/mman.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/msreg.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/mutex.h
+lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/pci_impl.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/pctypes.h
+lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/pic.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/proc.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/proc/prdata.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/prsystm.h

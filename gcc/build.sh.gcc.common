@@ -66,6 +66,8 @@ pthreads="--enable-threads=posix95"
 
 # Enable all languages
 langs="--enable-languages=c,c++,objc,fortran,ada,obj-c++"
+# For gcc 2.95.3 also build the chill compiler
+[ $abbrev_majorminor -eq 29 ] && langs="$langs,CHILL"
 # For gcc < 4.0 fortran is f77
 [ $abbrev_majorminor -lt 40 ] && langs=${langs/fortran/f77}
 # For gcc 4.0 fortran is f95

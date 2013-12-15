@@ -1,5 +1,8 @@
 CHANGELOG
 ---------
+* Sun Dec 08 2013 Tom G. Christensen <swpkg@jupiterrise.com> - 2.95.3-2
+- Rebuild with chill enabled
+
 * Mon Sep 30 2013 Tom G. Christensen <swpkg@jupiterrise.com> - 2.95.3-1
 - Import from tgcware v2
 - Fix dependencies
