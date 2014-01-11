@@ -19,9 +19,12 @@ lib/$libsubdir/${arch}-${vendor}-solaris*/$version/install-tools
 # "fixed" includes produced during build
 # This list will vary as it depends on the buildhost
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/curses.h
+lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/emmintrin.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/floatingpoint.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/math.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/memory.h
+lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/mmintrin.h
+lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/pmmintrin.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/pthread.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/rpc/auth.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/rpc/clnt.h
@@ -50,6 +53,7 @@ lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/stdbool.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/stddef.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/unwind.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/varargs.h
+lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/xmmintrin.h
 libexec/gcc/${arch}-${vendor}-solaris*/$version/cc1
 libexec/gcc/${arch}-${vendor}-solaris*/$version/collect2
 libexec/gcc/${arch}-${vendor}-solaris*/$version/install-tools
