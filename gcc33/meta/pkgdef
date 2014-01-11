@@ -21,12 +21,15 @@ lib/$libsubdir/${arch}-${vendor}-solaris*/$version/install-tools
 # This list will vary as it depends on the buildhost
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/alloca.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/curses.h
+lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/emmintrin.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/floatingpoint.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/kerberos/osconf.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/libintl.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/math.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/memory.h
+lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/mmintrin.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/netinet/if_ether.h
+lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/pmmintrin.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/proc_service.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/prof.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/pthread.h
@@ -63,6 +66,7 @@ lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/sys/varargs.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/thread_db.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/unistd.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/wchar.h
+lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/xmmintrin.h
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/v7
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/fixed
 lib/$libsubdir/${arch}-${vendor}-solaris*/$version/include/README
