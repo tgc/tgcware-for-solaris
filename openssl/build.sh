@@ -6,8 +6,8 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=openssl
-version=1.0.1e
-pkgver=1
+version=1.0.1f
+pkgver=2
 source[0]=http://openssl.org/source/$topdir-$version.tar.gz
 # If there are no patches, simply comment this
 #patch[0]=
@@ -107,6 +107,8 @@ install()
     setdir $prefix/${_libdir}
     ${__tar} -cf - libcrypto.so.0.9.8 libssl.so.0.9.8 | (cd ${stagedir}${prefix}/${_libdir}; ${__tar} -xf -)
     compat ossl 0.9.8g 1 2
+    # Previous 1.0.1 releases
+    compat ossl 1.0.1e 1 1
     # It *might* be compatible with 1.0.0 but I'm not going to risk it
 }
 
