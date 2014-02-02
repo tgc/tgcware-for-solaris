@@ -6,7 +6,7 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=git
-version=1.8.4.3
+version=1.8.5.3
 pkgver=1
 source[0]=http://git-core.googlecode.com/files/$topdir-$version.tar.gz
 source[1]=http://git-core.googlecode.com/files/$topdir-manpages-$version.tar.gz
@@ -29,7 +29,7 @@ prep()
 {
     generic_prep
     setdir source
-    cat <<EOF> config.mak
+    cat << EOF > config.mak
 CC=gcc
 PERL_PATH=$prefix/bin/perl
 ICONVDIR=$prefix
@@ -45,6 +45,8 @@ prefix=$prefix
 NEEDS_RESOLV = YesPlease
 # missing PTHREAD_MUTEX_RECURSIVE with posix95 pthreads
 NO_PTHREADS = YesPlease
+# It takes forever to run SVN tests
+NO_SVN_TESTS = YesPlease
 EOF
 
 }
