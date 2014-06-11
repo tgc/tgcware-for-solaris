@@ -1,5 +1,9 @@
 CHANGELOG
 ---------
+* Wed Jun 11 2014 Tom G. Christensen <swpkg@jupiterrise.com> - 1.0.1h-4
+- Update to 1.0.1h
+- Drop 0.9.8g compat libraries
+
 * Tue Apr 08 2014 Tom G. Christensen <swpkg@jupiterrise.com> - 1.0.1g-3
 - Update to 1.0.1g
 
