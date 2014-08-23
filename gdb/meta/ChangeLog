@@ -1,0 +1,10 @@
+CHANGELOG
+---------
+* Sat Aug 23 2014 Tom G. Christensen <swpkg@jupiterrise.com> - 7.8-1
+- Update to 7.8
+
+* Fri Mar 21 2014 Tom G. Christensen <swpkg@jupiterrise.com> - 7.7-2
+- Rebuild with more docs added
+
+* Fri Feb 14 2014 Tom G. Christensen <swpkg@jupiterrise.com> - 7.7-1
+- Initial package
