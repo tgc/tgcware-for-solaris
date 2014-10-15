@@ -6,12 +6,13 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=git
-version=2.1.1
+version=2.1.2
 pkgver=1
 source[0]=https://www.kernel.org/pub/software/scm/git/$topdir-$version.tar.gz
 source[1]=https://www.kernel.org/pub/software/scm/git/$topdir-manpages-$version.tar.gz
 # If there are no patches, simply comment this
 patch[0]=git-1.8.1.5-inet_addrstrlen.patch
+patch[1]=git-2.1.2-fix-no-pthreads.patch
 
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
@@ -32,6 +33,7 @@ prep()
     cat << EOF > config.mak
 CC=gcc
 PERL_PATH=$prefix/bin/perl
+SHELL_PATH=$prefix/bin/bash
 ICONVDIR=$prefix
 SANE_TOOL_PATH=/usr/tgcware/gnu:/usr/xpg6/bin:/usr/xpg4/bin
 NO_INSTALL_HARDLINKS=YesPlease
