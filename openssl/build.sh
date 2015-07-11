@@ -6,8 +6,8 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=openssl
-version=1.0.1o
-pkgver=9
+version=1.0.1p
+pkgver=10
 source[0]=http://openssl.org/source/$topdir-$version.tar.gz
 # If there are no patches, simply comment this
 #patch[0]=
@@ -103,8 +103,7 @@ install()
     custom_install=1
     generic_install INSTALL_PREFIX
 
-    # Previous 1.0.1 releases, probably compatible though upstream does
-    # not care about API compatibility
+    # Compatible with previous releases
     compat ossl 1.0.1e 1 1
     compat ossl 1.0.1f 2 2
     compat ossl 1.0.1g 3 3
@@ -113,7 +112,7 @@ install()
     compat ossl 1.0.1j 6 6
     compat ossl 1.0.1k 7 7
     compat ossl 1.0.1m 8 8
-    # It *might* be compatible with 1.0.0 aswell but I don't really know
+    compat ossl 1.0.1o 9 9
 }
 
 reg pack
