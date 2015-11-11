@@ -6,7 +6,7 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=grep
-version=2.21
+version=2.22
 pkgver=1
 source[0]=ftp://ftp.sunet.se/pub/gnu/grep/$topdir-$version.tar.xz
 # If there are no patches, simply comment this
@@ -24,8 +24,6 @@ reg prep
 prep()
 {
     generic_prep
-    setdir source
-    ${__gsed} -i 's/2.14.56-1e3d/2.15/g' configure
 }
 
 reg build
