@@ -6,8 +6,8 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=openssl
-version=1.0.1p
-pkgver=10
+version=1.0.1q
+pkgver=11
 source[0]=http://openssl.org/source/$topdir-$version.tar.gz
 # If there are no patches, simply comment this
 #patch[0]=
@@ -113,6 +113,7 @@ install()
     compat ossl 1.0.1k 7 7
     compat ossl 1.0.1m 8 8
     compat ossl 1.0.1o 9 9
+    compat ossl 1.0.1p 10 10
 }
 
 reg pack
