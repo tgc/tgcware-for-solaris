@@ -6,12 +6,13 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=git
-version=2.4.5
+version=2.6.4
 pkgver=1
 source[0]=https://www.kernel.org/pub/software/scm/git/$topdir-$version.tar.gz
 source[1]=https://www.kernel.org/pub/software/scm/git/$topdir-manpages-$version.tar.gz
 # If there are no patches, simply comment this
 patch[0]=git-1.8.1.5-inet_addrstrlen.patch
+patch[1]=git-2.6.3-stdint_h.patch
 
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
@@ -36,18 +37,18 @@ SHELL_PATH=$prefix/bin/bash
 ICONVDIR=$prefix
 SANE_TOOL_PATH=/usr/tgcware/gnu:/usr/xpg6/bin:/usr/xpg4/bin
 NO_INSTALL_HARDLINKS=YesPlease
-BASIC_CFLAGS += -I/usr/tgcware/include
-BASIC_LDFLAGS += -L/usr/tgcware/lib -Wl,-R,/usr/tgcware/lib
-NEEDS_LIBICONV = YesPlease
-NO_PYTHON = YesPlease
-INSTALL = /usr/tgcware/bin/ginstall
-TAR = /usr/tgcware/bin/gtar
+BASIC_CFLAGS+=-I/usr/tgcware/include
+BASIC_LDFLAGS+=-L/usr/tgcware/lib -Wl,-R,/usr/tgcware/lib
+NEEDS_LIBICONV=YesPlease
+NO_PYTHON=YesPlease
+INSTALL=/usr/tgcware/bin/ginstall
+TAR=/usr/tgcware/bin/gtar
 prefix=$prefix
-NEEDS_RESOLV = YesPlease
+NEEDS_RESOLV=YesPlease
 # missing PTHREAD_MUTEX_RECURSIVE with posix95 pthreads
-NO_PTHREADS = YesPlease
+NO_PTHREADS=YesPlease
 # It takes forever to run SVN tests
-NO_SVN_TESTS = YesPlease
+NO_SVN_TESTS=YesPlease
 EOF
 
 }
