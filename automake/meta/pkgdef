@@ -9,7 +9,10 @@ files(-,root,bin)
 default_docs
 $_bindir
 $_infodir
-$_sharedir/automake-1.10
-$_sharedir/aclocal-1.10
+$_sharedir/automake-1.15
+$_sharedir/aclocal-1.15
+$_sharedir/aclocal
 $_sharedir/doc/automake
+$_mandir/man1/aclocal*
+$_mandir/man1/automake*
 
