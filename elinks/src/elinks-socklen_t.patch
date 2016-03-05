@@ -1,0 +1,11 @@
+--- elinks-4efea7e/src/network/socket.c.orig	2016-02-07 11:51:17.000000000 +0100
++++ elinks-4efea7e/src/network/socket.c	2016-03-05 20:11:19.980014000 +0100
+@@ -56,6 +56,8 @@
+ #include "util/memory.h"
+ #include "util/string.h"
+ 
++typedef int socklen_t;
++
+ 
+ /* Holds information used during the connection establishing phase. */
+ struct connect_info {
