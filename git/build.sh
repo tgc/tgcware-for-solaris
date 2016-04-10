@@ -6,24 +6,29 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=git
-version=2.6.4
+version=2.8.1
 pkgver=1
 source[0]=https://www.kernel.org/pub/software/scm/git/$topdir-$version.tar.gz
 source[1]=https://www.kernel.org/pub/software/scm/git/$topdir-manpages-$version.tar.gz
 # If there are no patches, simply comment this
 patch[0]=git-1.8.1.5-inet_addrstrlen.patch
 patch[1]=git-2.6.3-stdint_h.patch
+patch[2]=git-2.8.1-avoid-null-with-printf.patch
+patch[3]=git-2.8.1-lower-case-error-strings.patch
+patch[4]=git-2.8.1-all-non-zero-returns.patch
+patch[5]=git-2.8.1-handle-unset-errors.patch
 
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
 
 # Global settings
-
 no_configure=1
 __configure="make"
 configure_args=
 make_build_target="V=1"
 make_check_target="test"
+# gcc 4.3.6 will cause a SIGBUS in memcpy on 2.6/SPARC
+export CC="/usr/tgcware/gcc42/bin/gcc"
 
 reg prep
 prep()
@@ -31,7 +36,7 @@ prep()
     generic_prep
     setdir source
     cat << EOF > config.mak
-CC=gcc
+CC=$CC
 PERL_PATH=$prefix/bin/perl
 SHELL_PATH=$prefix/bin/bash
 ICONVDIR=$prefix
@@ -73,7 +78,7 @@ install()
     setdir ${stagedir}${prefix}/${_mandir}
     ${__tar} -xf $(get_source_absfilename "${source[1]}")
     chmod 755 ${stagedir}${prefix}/${_mandir}
-    doc COPYING Documentation/RelNotes/${version}.txt README
+    doc COPYING Documentation/RelNotes/${version}.txt README.md
 
     # fix git symlink
     ${__rm} -f ${stagedir}${prefix}/libexec/git-core/git
