@@ -6,7 +6,7 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=curl
-version=7.48.0
+version=7.49.0
 pkgver=1
 source[0]=http://curl.haxx.se/download/$topdir-$version.tar.bz2
 # If there are no patches, simply comment this
@@ -63,6 +63,7 @@ install()
     compat curl 7.45.0 1 1
     compat curl 7.46.0 1 1
     compat curl 7.47.1 1 2
+    compat curl 7.48.0 1 1
 }
 
 reg pack
