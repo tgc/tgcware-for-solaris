@@ -1,0 +1,12 @@
+--- vim-7.4.2253/src/channel.c.socklen_t	2016-08-25 23:19:29.000000000 +0200
++++ vim-7.4.2253/src/channel.c	2016-08-26 11:33:11.314733000 +0200
+@@ -52,6 +52,9 @@
+ # define fd_read(fd, buf, len) read(fd, buf, len)
+ # define fd_write(sd, buf, len) write(sd, buf, len)
+ # define fd_close(sd) close(sd)
++# ifndef socklen_t
++typedef int socklen_t;
++# endif
+ #endif
+ 
+ static void channel_read(channel_T *channel, int part, char *func);
