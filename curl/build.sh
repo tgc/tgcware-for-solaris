@@ -6,12 +6,12 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=curl
-version=7.50.0
+version=7.50.3
 pkgver=1
 source[0]=http://curl.haxx.se/download/$topdir-$version.tar.bz2
 # https://curl.haxx.se/docs/caextract.html
-certdate=2016-04-20
-source[1]=cacert-$certdate.pem
+certdate=2016-09-14
+source[1]=https://curl.haxx.se/ca/cacert-$certdate.pem
 # If there are no patches, simply comment this
 #patch[0]=
 
@@ -49,8 +49,7 @@ install()
     ${__install} -m0644 -D $(get_source_absfilename "${source[1]}") ${stagedir}${prefix}/${_sysconfdir}/curl-ca-bundle.pem
     doc CHANGES COPYING README* RELEASE-NOTES docs/FAQ docs/FEATURES docs/BUGS \
       docs/MANUAL docs/RESOURCES docs/TODO docs/TheArtOfHttpScripting \
-      docs/examples/*.c docs/examples/Makefile.example docs/INTERNALS \
-      docs/CONTRIBUTE
+      docs/examples/*.c docs/examples/Makefile.example
 
     # ABI compatible releases
     compat curl 7.19.4 1 5
@@ -69,6 +68,7 @@ install()
     compat curl 7.47.1 1 2
     compat curl 7.48.0 1 1
     compat curl 7.49.0 1 1
+    compat curl 7.50.0 1 1
 }
 
 reg pack
