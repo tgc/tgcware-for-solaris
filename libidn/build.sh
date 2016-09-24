@@ -6,9 +6,9 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=libidn
-version=1.30
+version=1.33
 pkgver=1
-source[0]=ftp://ftp.sunet.se/pub/gnu/libidn/$topdir-$version.tar.gz
+source[0]=https://mirrors.kernel.org/gnu/libidn/$topdir-$version.tar.gz
 # If there are no patches, simply comment this
 #patch[0]=
 
@@ -48,6 +48,7 @@ install()
     compat lidn 1.18 1 1
     compat libidn 1.22 1 1
     compat libidn 1.28 1 1
+    compat libidn 1.30 1 1
 }
 
 reg pack
