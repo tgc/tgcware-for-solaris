@@ -1,0 +1,11 @@
+--- curl-7.55.1/include/curl/system.h.socklen_t	2017-08-18 22:07:38.315224000 +0200
++++ curl-7.55.1/include/curl/system.h	2017-08-18 22:54:17.204258000 +0200
+@@ -447,7 +447,7 @@
+ #    define CURL_SUFFIX_CURL_OFF_T     L
+ #    define CURL_SUFFIX_CURL_OFF_TU    UL
+ #  endif
+-#  define CURL_TYPEOF_CURL_SOCKLEN_T socklen_t
++#  define CURL_TYPEOF_CURL_SOCKLEN_T int
+ #  define CURL_SIZEOF_CURL_SOCKLEN_T 4
+ #  define CURL_PULL_SYS_TYPES_H      1
+ #  define CURL_PULL_SYS_SOCKET_H     1
