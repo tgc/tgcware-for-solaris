@@ -6,14 +6,14 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=curl
-version=7.55.1
+version=7.59.0
 pkgver=1
 source[0]=http://curl.haxx.se/download/$topdir-$version.tar.bz2
 # https://curl.haxx.se/docs/caextract.html
-certdate=2017-06-07
+certdate=2018-03-07
 source[1]=https://curl.haxx.se/ca/cacert-$certdate.pem
 # If there are no patches, simply comment this
-patch[0]=curl-7.55.1-socklen_t.patch
+patch[0]=curl-7.59.0-socklen_t.patch
 # We need this since ioctl() is now defined in stropts.h due to enabling
 # XPG4_2 via _XOPEN_SOURCE and _XOPEN_SOURCE_EXTENDED=1
 patch[1]=curl-7.55.1-stropts_h.patch
@@ -22,6 +22,7 @@ patch[1]=curl-7.55.1-stropts_h.patch
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
 
 # Global settings
+# To expose utimes() in XPG4_2 features
 export CC="gcc -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED=1"
 export CPPFLAGS="-I$prefix/include"
 export LDFLAGS="-L$prefix/lib -R$prefix/lib"
@@ -76,6 +77,7 @@ install()
     compat curl 7.50.3 1 1
     compat curl 7.51.0 1 1
     compat curl 7.52.1 1 1
+    compat curl 7.55.1 1 1
 }
 
 reg pack
