@@ -1,0 +1,11 @@
+--- expat-2.2.5/lib/siphash.h.stdint_h	2017-09-03 16:47:40.000000000 +0200
++++ expat-2.2.5/lib/siphash.h	2018-04-08 12:52:11.539331000 +0200
+@@ -93,7 +93,7 @@
+   typedef unsigned __int32 uint32_t;
+   typedef unsigned __int64 uint64_t;
+ #else
+- #include <stdint.h> /* uint64_t uint32_t uint8_t */
++ #include <sys/types.h> /* uint64_t uint32_t uint8_t */
+ #endif
+ 
+ 
