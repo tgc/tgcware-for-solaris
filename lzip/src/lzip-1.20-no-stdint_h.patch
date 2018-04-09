@@ -1,0 +1,77 @@
+--- lzip-1.20/file_index.cc.stdint_h	2018-01-02 14:01:17.000000000 +0100
++++ lzip-1.20/file_index.cc	2018-04-09 19:52:09.973367000 +0200
+@@ -23,7 +23,7 @@
+ #include <cstring>
+ #include <string>
+ #include <vector>
+-#include <stdint.h>
++#include <sys/types.h>
+ #include <unistd.h>
+ 
+ #include "lzip.h"
+--- lzip-1.20/encoder.cc.stdint_h	2018-01-02 14:01:17.000000000 +0100
++++ lzip-1.20/encoder.cc	2018-04-09 19:52:46.853720000 +0200
+@@ -23,7 +23,7 @@
+ #include <cstring>
+ #include <string>
+ #include <vector>
+-#include <stdint.h>
++#include <sys/types.h>
+ 
+ #include "lzip.h"
+ #include "encoder_base.h"
+--- lzip-1.20/encoder_base.cc.stdint_h	2018-01-02 14:01:17.000000000 +0100
++++ lzip-1.20/encoder_base.cc	2018-04-09 19:53:13.993950000 +0200
+@@ -23,7 +23,7 @@
+ #include <cstring>
+ #include <string>
+ #include <vector>
+-#include <stdint.h>
++#include <sys/types.h>
+ 
+ #include "lzip.h"
+ #include "encoder_base.h"
+--- lzip-1.20/fast_encoder.cc.stdint_h	2018-01-02 14:01:17.000000000 +0100
++++ lzip-1.20/fast_encoder.cc	2018-04-09 19:53:38.984163000 +0200
+@@ -23,7 +23,7 @@
+ #include <cstring>
+ #include <string>
+ #include <vector>
+-#include <stdint.h>
++#include <sys/types.h>
+ 
+ #include "lzip.h"
+ #include "encoder_base.h"
+--- lzip-1.20/decoder.cc.stdint_h	2018-01-02 14:01:17.000000000 +0100
++++ lzip-1.20/decoder.cc	2018-04-09 19:54:07.484409000 +0200
+@@ -24,7 +24,7 @@
+ #include <cstring>
+ #include <string>
+ #include <vector>
+-#include <stdint.h>
++#include <sys/types.h>
+ #include <unistd.h>
+ 
+ #include "lzip.h"
+--- lzip-1.20/list.cc.stdint_h	2018-01-02 14:01:17.000000000 +0100
++++ lzip-1.20/list.cc	2018-04-09 19:54:26.434568000 +0200
+@@ -21,7 +21,7 @@
+ #include <cstring>
+ #include <string>
+ #include <vector>
+-#include <stdint.h>
++#include <sys/types.h>
+ #include <unistd.h>
+ #include <sys/stat.h>
+ 
+--- lzip-1.20/main.cc.stdint_h	2018-01-06 11:01:29.000000000 +0100
++++ lzip-1.20/main.cc	2018-04-09 19:54:47.154757000 +0200
+@@ -34,7 +34,7 @@
+ #include <string>
+ #include <vector>
+ #include <fcntl.h>
+-#include <stdint.h>
++#include <sys/types.h>
+ #include <unistd.h>
+ #include <utime.h>
+ #include <sys/stat.h>
