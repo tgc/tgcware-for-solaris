@@ -1,6 +1,6 @@
 [vim]
 pkgname="${pkgprefix}${topdir}"
-name="Vim - Vi IMproved"
+name="Vim - VIsual editor iMproved"
 pkgcat="application"
 pkgvendor="http://www.vim.org"
 pkgdesc="An improved almost compatible version of Vi"
