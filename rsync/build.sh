@@ -6,9 +6,9 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=rsync
-version=3.0.9
+version=3.1.3
 pkgver=1
-source[0]=http://rsync.samba.org/ftp/rsync/src/$topdir-$version.tar.gz
+source[0]=https://download.samba.org/pub/rsync/src/$topdir-$version.tar.gz
 # If there are no patches, simply comment this
 #patch[0]=
 
