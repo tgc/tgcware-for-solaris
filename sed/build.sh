@@ -6,11 +6,11 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=sed
-version=4.2.2
+version=4.7
 pkgver=1
-source[0]=ftp://ftp.sunet.se/pub/gnu/sed/$topdir-$version.tar.gz
+source[0]=https://mirrors.kernel.org/gnu/sed/$topdir-$version.tar.xz
 # If there are no patches, simply comment this
-patch[0]=sed-4.2.2-fix-gnulib-locale_h.patch
+#patch[0]=
 
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
@@ -24,6 +24,9 @@ reg prep
 prep()
 {
     generic_prep
+    setdir source
+    # Workaround broken config.guess (fixed upstream 2018-12-21)
+    ${__gsed} -i 's/`isainfo -b`/32/' build-aux/config.guess
 }
 
 reg build
@@ -42,7 +45,6 @@ reg install
 install()
 {
     generic_install DESTDIR
-    rmdir ${stagedir}${prefix}/${_libdir}
     doc NEWS ChangeLog BUGS COPYING
 }
 
