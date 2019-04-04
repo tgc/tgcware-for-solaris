@@ -6,7 +6,7 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=curl
-version=7.64.0
+version=7.64.1
 pkgver=1
 source[0]=http://curl.haxx.se/download/$topdir-$version.tar.bz2
 # https://curl.haxx.se/docs/caextract.html
@@ -23,19 +23,21 @@ export CPPFLAGS="-I$prefix/include"
 export LDFLAGS="-L$prefix/lib -R$prefix/lib"
 export PKG_CONFIG=pkgconf
 
+# Prefer the X/Open feature set to get utimes() defined
+export CC="gcc -D__EXTENSIONS__ -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED=1"
 configure_args+=(--enable-static=no --enable-http --enable-ftp --enable-file --disable-ldap --enable-manual --enable-cookies --enable-crypto --with-libidn2 --with-libssh2 --with-nghttp2 --with-ca-bundle=${prefix}/${_sysconfdir}/curl-ca-bundle.pem)
 
 reg prep
 prep()
 {
     generic_prep
-    # In one instance we rely on implicit function declaration (utimes() in sys/time.h)
     setdir source
-    ${__gsed} -i 's/Werror-implicit-function-declaration/Wimplicit-function-declaration/' configure
     # There are weak pthread_* symbols in libc but curl actually needs the real
     # thing so we reverse the test that would normally make configure skip
     # looking for the pthread symbols in libpthread.
     ${__gsed} -i '/USE_THREADS_POSIX/ s/\!= "1"/\= "1"/' configure
+    # Ensure testsuite can find sshd
+    sed -i 's#/usr/freeware#/usr/tgcware#' tests/sshhelp.pm
 }
 
 reg build
@@ -83,6 +85,7 @@ install()
     compat curl 7.55.1 1 1
     compat curl 7.59.0 1 1
     compat curl 7.61.1 1 1
+    compat curl 7.64.0 1 1
 }
 
 reg pack
