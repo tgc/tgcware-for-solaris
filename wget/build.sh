@@ -6,7 +6,7 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=wget
-version=1.20.1
+version=1.20.3
 pkgver=1
 source[0]=https://mirrors.kernel.org/gnu/wget/$topdir-$version.tar.lz
 # If there are no patches, simply comment this
@@ -24,9 +24,6 @@ reg prep
 prep()
 {
     generic_prep
-    setdir source
-    # Workaround broken config.guess (fixed upstream 2018-12-21)
-    ${__gsed} -i 's/`isainfo -b`/32/' build-aux/config.guess
 }
 
 reg build
