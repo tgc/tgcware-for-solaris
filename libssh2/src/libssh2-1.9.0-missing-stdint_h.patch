@@ -1,0 +1,11 @@
+--- libssh2-1.9.0/include/libssh2.h.stdint_h	2019-06-20 08:19:27.000000000 +0000
++++ libssh2-1.9.0/include/libssh2.h	2020-01-30 16:53:35.730774000 +0000
+@@ -142,7 +142,7 @@
+ #define HAVE_SSIZE_T
+ #endif
+ #else
+-#include <stdint.h>
++#include <sys/types.h>
+ typedef unsigned long long libssh2_uint64_t;
+ typedef long long libssh2_int64_t;
+ #endif
