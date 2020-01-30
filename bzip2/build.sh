@@ -6,11 +6,11 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=bzip2
-version=1.0.6
+version=1.0.8
 pkgver=1
-source[0]=http://bzip.org/${version}/$topdir-$version.tar.gz
+source[0]=https://sourceware.org/pub/$topdir/$topdir-$version.tar.gz
 # If there are no patches, simply comment this
-patch[0]=bzip2-1.0.6-sane_soname.patch
+patch[0]=bzip2-1.0.8-sane_soname.patch
 
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
@@ -67,6 +67,7 @@ install()
     ${__mv} ${stagedir}${prefix}/man ${stagedir}${prefix}/share
 
     compat bzip2 1.0.5 1 1
+    compat bzip2 1.0.6 1 1
 }
 
 reg pack
