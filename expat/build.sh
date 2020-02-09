@@ -6,11 +6,11 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=expat
-version=2.2.5
+version=2.2.9
 pkgver=1
-source[0]=https://downloads.sourceforge.net/project/expat/expat/${version}/$topdir-$version.tar.bz2
+source[0]=https://downloads.sourceforge.net/project/expat/expat/${version}/$topdir-$version.tar.lz
 # If there are no patches, simply comment this
-patch[0]=expat-2.2.5-no-stdint_h.patch
+patch[0]=expat-2.2.9-no-stdint_h.patch
 
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
@@ -43,9 +43,11 @@ reg install
 install()
 {
     generic_install DESTDIR
-    doc COPYING Changes README.md AUTHORS
-    compat expat 2.1.0 1 1
+    doc COPYING Changes README.md AUTHORS doc/reference.html doc/expat.png doc/style.css
     ${__rm} -rf ${stagedir}${prefix}/share/doc/expat
+
+    compat expat 2.1.0 1 1
+    compat expat 2.2.5 1 1
 }
 
 reg pack
