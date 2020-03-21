@@ -1,6 +1,6 @@
---- curl-7.59.0/include/curl/system.h.socklen_t	2018-01-30 23:02:52.000000000 +0100
-+++ curl-7.59.0/include/curl/system.h	2018-04-08 17:44:33.797554000 +0200
-@@ -365,7 +365,7 @@
+--- curl-7.68.0/include/curl/system.h.orig	2020-01-04 22:41:58.000000000 +0000
++++ curl-7.68.0/include/curl/system.h	2020-01-30 18:17:53.804852000 +0000
+@@ -396,7 +396,7 @@
  #    define CURL_SUFFIX_CURL_OFF_T     L
  #    define CURL_SUFFIX_CURL_OFF_TU    UL
  #  endif
