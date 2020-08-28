@@ -6,7 +6,7 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=nghttp2
-version=1.40.0
+version=1.41.0
 pkgver=1
 source[0]=https://github.com/${topdir}/${topdir}/releases/download/v${version}/${topdir}-${version}.tar.xz
 # If there are no patches, simply comment this
@@ -22,18 +22,19 @@ configure_args+=(--disable-static --enable-lib-only)
 make_build_target="V=1"
 # No python deps from packaged scripts
 ignore_deps="TGCpy27"
+# No symbol visibility support
+ac_overrides="ax_cv_check_cflags___fvisibility_hidden=no"
+# gcc 4.x causes linking to fail despite building everything PIC:
+# "ld: fatal: relocations remain against allocatable but non-writable sections"
+# Rather than using -mimpure-text we drop back to gcc 3.4 since it just works
+if [ "$arch" = "i386" ]; then
+    export CC=/usr/tgcware/gcc34/bin/gcc
+fi
 
 reg prep
 prep()
 {
     generic_prep
-    if [ "$arch" = "i386" ]; then
-      # Replacing Wl,-z text with -mimpure-text is a workaround to avoid
-      # "ld: fatal: relocations remain against allocatable but non-writable sections"
-      # when linking libnghttp2
-      setdir source
-      sed -i 's|\$wl-z \${wl}text|-mimpure-text|g' configure
-    fi
 }
 
 reg build
@@ -61,6 +62,7 @@ install()
 
     compat nghttp2 1.37.0 1 1
     compat nghttp2 1.38.0 1 1
+    compat nghttp2 1.40.0 1 1
 }
 
 reg pack
