@@ -6,14 +6,15 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=curl
-version=7.69.1
+version=7.73.0
 pkgver=1
 source[0]=http://curl.haxx.se/download/$topdir-$version.tar.bz2
 # https://curl.haxx.se/docs/caextract.html
-certdate=2020-01-01
+certdate=2020-10-14
 source[1]=https://curl.haxx.se/ca/cacert-$certdate.pem
 # If there are no patches, simply comment this
 patch[0]=curl-7.68.0-socklen_t.patch
+patch[1]=curl-7.73.0-no-ipv6.patch
 
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
@@ -87,6 +88,7 @@ install()
     compat curl 7.61.1 1 1
     compat curl 7.64.0 1 1
     compat curl 7.64.1 1 1
+    compat curl 7.69.1 1 1
 }
 
 reg pack
