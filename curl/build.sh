@@ -6,15 +6,14 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=curl
-version=7.73.0
+version=7.75.0
 pkgver=1
 source[0]=http://curl.haxx.se/download/$topdir-$version.tar.bz2
 # https://curl.haxx.se/docs/caextract.html
-certdate=2020-10-14
+certdate=2021-01-19
 source[1]=https://curl.haxx.se/ca/cacert-$certdate.pem
 # If there are no patches, simply comment this
 patch[0]=curl-7.68.0-socklen_t.patch
-patch[1]=curl-7.73.0-no-ipv6.patch
 
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
@@ -26,17 +25,13 @@ export PKG_CONFIG=pkgconf
 
 # Prefer the X/Open feature set to get utimes() defined
 export CC="gcc -D__EXTENSIONS__ -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED=1"
-configure_args+=(--enable-static=no --enable-http --enable-ftp --enable-file --disable-ldap --enable-manual --enable-cookies --enable-crypto --with-libidn2 --with-libssh2 --with-nghttp2 --with-ca-bundle=${prefix}/${_sysconfdir}/curl-ca-bundle.pem)
+configure_args+=(--enable-static=no --enable-http --enable-ftp --enable-file --disable-ldap --enable-manual --enable-cookies --enable-crypto --with-libidn2 --with-libssh2 --with-nghttp2 --with-ca-bundle=${prefix}/${_sysconfdir}/curl-ca-bundle.pem --disable-threaded-resolver)
 
 reg prep
 prep()
 {
     generic_prep
     setdir source
-    # There are weak pthread_* symbols in libc but curl actually needs the real
-    # thing so we reverse the test that would normally make configure skip
-    # looking for the pthread symbols in libpthread.
-    ${__gsed} -i '/USE_THREADS_POSIX/ s/\!= "1"/\= "1"/' configure
     # Ensure testsuite can find sshd
     sed -i 's#/usr/freeware#/usr/tgcware#' tests/sshhelp.pm
 }
@@ -89,6 +84,8 @@ install()
     compat curl 7.64.0 1 1
     compat curl 7.64.1 1 1
     compat curl 7.69.1 1 1
+    compat curl 7.72.0 1 1
+    compat curl 7.73.0 1 1
 }
 
 reg pack
