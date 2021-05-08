@@ -1,0 +1,84 @@
+diff --git a/regress/unittests/authopt/tests.c b/regress/unittests/authopt/tests.c
+index 8c51b380..1f0494f5 100644
+--- a/regress/unittests/authopt/tests.c
++++ b/regress/unittests/authopt/tests.c
+@@ -11,7 +11,9 @@
+ #include <sys/types.h>
+ #include <sys/param.h>
+ #include <stdio.h>
++#ifdef HAVE_STDINT_H
+ #include <stdint.h>
++#endif
+ #include <stdlib.h>
+ #include <string.h>
+ 
+diff --git a/regress/unittests/misc/test_argv.c b/regress/unittests/misc/test_argv.c
+index 7a28f64e..f0d7afe0 100644
+--- a/regress/unittests/misc/test_argv.c
++++ b/regress/unittests/misc/test_argv.c
+@@ -10,7 +10,9 @@
+ #include <sys/types.h>
+ #include <sys/param.h>
+ #include <stdio.h>
++#ifdef HAVE_STDINT_H
+ #include <stdint.h>
++#endif
+ #include <stdlib.h>
+ #include <string.h>
+ 
+diff --git a/regress/unittests/misc/test_convtime.c b/regress/unittests/misc/test_convtime.c
+index 5be3ee43..8f9be89f 100644
+--- a/regress/unittests/misc/test_convtime.c
++++ b/regress/unittests/misc/test_convtime.c
+@@ -10,7 +10,9 @@
+ #include <sys/types.h>
+ #include <sys/param.h>
+ #include <stdio.h>
++#ifdef HAVE_STDINT_H
+ #include <stdint.h>
++#endif
+ #include <stdlib.h>
+ #include <string.h>
+ 
+diff --git a/regress/unittests/misc/test_expand.c b/regress/unittests/misc/test_expand.c
+index c336fb0b..513c69bc 100644
+--- a/regress/unittests/misc/test_expand.c
++++ b/regress/unittests/misc/test_expand.c
+@@ -10,7 +10,9 @@
+ #include <sys/types.h>
+ #include <sys/param.h>
+ #include <stdio.h>
++#ifdef HAVE_STDINT_H
+ #include <stdint.h>
++#endif
+ #include <stdlib.h>
+ #include <string.h>
+ 
+diff --git a/regress/unittests/misc/test_parse.c b/regress/unittests/misc/test_parse.c
+index dd99068d..727ff3de 100644
+--- a/regress/unittests/misc/test_parse.c
++++ b/regress/unittests/misc/test_parse.c
+@@ -10,7 +10,9 @@
+ #include <sys/types.h>
+ #include <sys/param.h>
+ #include <stdio.h>
++#ifdef HAVE_STDINT_H
+ #include <stdint.h>
++#endif
+ #include <stdlib.h>
+ #include <string.h>
+ 
+diff --git a/regress/unittests/misc/tests.c b/regress/unittests/misc/tests.c
+index 75013f48..6bd8859b 100644
+--- a/regress/unittests/misc/tests.c
++++ b/regress/unittests/misc/tests.c
+@@ -10,7 +10,9 @@
+ #include <sys/types.h>
+ #include <sys/param.h>
+ #include <stdio.h>
++#ifdef HAVE_STDINT_H
+ #include <stdint.h>
++#endif
+ #include <stdlib.h>
+ #include <string.h>
+ 
