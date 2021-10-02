@@ -6,12 +6,12 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=curl
-version=7.76.1
+version=7.79.1
 pkgver=1
-source[0]=http://curl.haxx.se/download/$topdir-$version.tar.bz2
-# https://curl.haxx.se/docs/caextract.html
-certdate=2021-01-19
-source[1]=https://curl.haxx.se/ca/cacert-$certdate.pem
+source[0]=http://curl.se/download/$topdir-$version.tar.bz2
+# https://curl.se/docs/caextract.html
+certdate=2021-09-30
+source[1]=https://curl.se/ca/cacert-$certdate.pem
 # If there are no patches, simply comment this
 patch[0]=curl-7.68.0-socklen_t.patch
 
@@ -25,7 +25,7 @@ export PKG_CONFIG=pkgconf
 
 # Prefer the X/Open feature set to get utimes() defined
 export CC="gcc -D__EXTENSIONS__ -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED=1"
-configure_args+=(--enable-static=no --enable-http --enable-ftp --enable-file --disable-ldap --enable-manual --enable-cookies --enable-crypto --with-libidn2 --with-libssh2 --with-nghttp2 --with-ca-bundle=${prefix}/${_sysconfdir}/curl-ca-bundle.pem --disable-threaded-resolver)
+configure_args+=(--enable-static=no --with-openssl --enable-http --enable-ftp --enable-file --disable-ldap --enable-manual --enable-cookies --enable-crypto --with-libidn2 --with-libssh2 --with-nghttp2 --with-ca-bundle=${prefix}/${_sysconfdir}/curl-ca-bundle.pem --disable-threaded-resolver)
 
 reg prep
 prep()
@@ -88,6 +88,7 @@ install()
     compat curl 7.73.0 1 1
     compat curl 7.75.0 1 1
     compat curl 7.76.0 1 1
+    compat curl 7.76.1 1 1
 }
 
 reg pack
