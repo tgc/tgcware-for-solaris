@@ -1,5 +1,9 @@
 CHANGELOG
 ---------
+* Sat Nov 20 2021 Tom G. Christensen <swpkg@jupiterrise.com> - 1.0.2u-7
+- Rebuild as parallel installable with OpenSSL 3.0
+- Move utils into their own package
+
 * Tue Jan 28 2020 Tom G. Christensen <swpkg@jupiterrise.com> - 1.0.2u-6
 - Update to 1.0.2u
 
