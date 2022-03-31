@@ -9,7 +9,7 @@ files(-,root,bin)
 default_docs
 $_libdir/*.so.*
 $_libdir/engines/*.so
-$_sharedir/ssl
+$_sharedir/ssl${shortver}
 
 [openssl-utils]
 pkgname="${pkgprefix}osslu"

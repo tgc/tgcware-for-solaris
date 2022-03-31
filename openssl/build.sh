@@ -7,10 +7,14 @@
 # Check the following 4 variables before running the script
 topdir=openssl
 version=1.0.2u
-pkgver=7
+pkgver=8
 source[0]=https://openssl.org/source/$topdir-$version.tar.gz
 # If there are no patches, simply comment this
-#patch[0]=
+patch[0]=openssl-1.0.2u-cve-2020-1971.patch
+patch[1]=openssl-1.0.2u-cve-2021-23840.patch
+patch[2]=openssl-1.0.2u-cve-2021-23841.patch
+patch[3]=openssl-1.0.2u-cve-2021-3712.patch
+patch[4]=openssl-1.0.2u-cve-2022-0778.patch
 
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
@@ -24,7 +28,7 @@ shortver=102
 pname=openssl${shortver}
 make_check_target="test"
 __configure="./Configure"
-configure_args=(--prefix=$prefix --openssldir=${prefix}/${_sharedir}/ssl zlib shared)
+configure_args=(--prefix=$prefix --openssldir=${prefix}/${_sharedir}/ssl${shortver} zlib shared)
 if [ "$arch" = "sparc" ]; then
     configure_args+=(solaris-sparc${gcc_arch}-gcc)
 else
@@ -85,7 +89,6 @@ install()
     ${__mv} ${stagedir}${prefix}/${_includedir}/{openssl,$pname/openssl}
     ${__mv} ${stagedir}${prefix}/${_bindir}/{openssl,$pname}
     ${__rm} -rf ${stagedir}${prefix}/{${_sharedir}/ssl/misc,{${_bindir},${_mandir}/man1}/{CA.pl,c_rehash,*tsget}*}
-    ${__rm} -f ${stagedir}${prefix}/${_sharedir}/ssl/openssl.cnf
     ${__rm} -f ${stagedir}${prefix}/${_libdir}/*.so
     ln -s ../libcrypto.so.${sover} ${stagedir}${prefix}/${_libdir}/${pname}/libcrypto.so
     ln -s ../libssl.so.${sover} ${stagedir}${prefix}/${_libdir}/${pname}/libssl.so
@@ -129,6 +132,7 @@ install()
     compat openssl 1.0.2p 1 4
     compat openssl 1.0.2r 1 5
     compat openssl 1.0.2u 1 6
+    compat openssl 1.0.2u 1 7
 }
 
 reg pack
