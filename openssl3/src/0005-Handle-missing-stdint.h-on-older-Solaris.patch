@@ -1,7 +1,7 @@
-From da14a764a1a533bb6043fa9e682256fe6c02772f Mon Sep 17 00:00:00 2001
+From 0d98913eefc39e7fed780a0c1affbb8356ce29b8 Mon Sep 17 00:00:00 2001
 From: "Tom G. Christensen" <tgc@jupiterrise.com>
 Date: Wed, 27 Oct 2021 21:33:59 +0200
-Subject: [PATCH 5/6] Handle missing <stdint.h> on older Solaris
+Subject: [PATCH 5/7] Handle missing <stdint.h> on older Solaris
 
 Basically we assume that if we are on a Solaris platform with gcc older
 than 4.5 then <stdint.h> is not available.

@@ -1,7 +1,7 @@
-From 9aa7d4ac148ac0b9aa695936d6f5d01ab198f05c Mon Sep 17 00:00:00 2001
+From f1afddaeb70d98047dc52c07b943b9d1c0282c4a Mon Sep 17 00:00:00 2001
 From: "Tom G. Christensen" <tgc@jupiterrise.com>
 Date: Wed, 27 Oct 2021 20:38:52 +0200
-Subject: [PATCH 2/6] Include <sys/atomic.h> directly on Solaris
+Subject: [PATCH 2/7] Include <sys/atomic.h> directly on Solaris
 
 Only Solaris 10 has <atomic.h> and it is only a wrapper around
 <sys/atomic.h>.

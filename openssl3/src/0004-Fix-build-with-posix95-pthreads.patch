@@ -1,7 +1,7 @@
-From 6abfca6f0805c0c3e9b6bd0e7298ce01962f08b8 Mon Sep 17 00:00:00 2001
+From 2c9c6a7cb7b9cbf8ee68bb55b29313a26d0d43bd Mon Sep 17 00:00:00 2001
 From: "Tom G. Christensen" <tgc@jupiterrise.com>
 Date: Wed, 27 Oct 2021 20:52:24 +0200
-Subject: [PATCH 4/6] Fix build with posix95 pthreads
+Subject: [PATCH 4/7] Fix build with posix95 pthreads
 
 Solaris 2.6 only conforms to POSIX.1c pthreads which has no mutex
 attribute support.

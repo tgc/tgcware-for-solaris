@@ -1,7 +1,7 @@
-From 6266f902d2e12987812060db6fad106e1614dc13 Mon Sep 17 00:00:00 2001
+From bb038a4df281e1104f6748d8dcc2803ea9728dd5 Mon Sep 17 00:00:00 2001
 From: "Tom G. Christensen" <tgc@jupiterrise.com>
 Date: Wed, 27 Oct 2021 20:48:25 +0200
-Subject: [PATCH 3/6] Provide socklen_t on Solaris 2.6
+Subject: [PATCH 3/7] Provide socklen_t on Solaris 2.6
 
 ---
  crypto/bio/bio_local.h | 4 ++++

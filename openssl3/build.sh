@@ -6,7 +6,7 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=openssl
-version=3.0.0
+version=3.0.2
 pkgver=1
 source[0]=https://openssl.org/source/$topdir-$version.tar.gz
 # If there are no patches, simply comment this
@@ -16,6 +16,7 @@ patch[2]=0003-Provide-socklen_t-on-Solaris-2.6.patch
 patch[3]=0004-Fix-build-with-posix95-pthreads.patch
 patch[4]=0005-Handle-missing-stdint.h-on-older-Solaris.patch
 patch[5]=0006-Handle-missing-strtoumax.patch
+patch[6]=0007-Use-target-CPU-choice-on-SPARC.patch
 
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
@@ -30,7 +31,7 @@ configure_args=(--prefix=$prefix --openssldir=${prefix}/${_sharedir}/ssl --with-
 if [ "$arch" = "sparc" ]; then
     configure_args+=(solaris-sparc${gcc_arch}-gcc)
 else
-    configure_args+=(solaris-x86-gcc 386)
+    configure_args+=(386 solaris-x86-gcc)
     configure_args+=(CFLAGS="-march=${gcc_arch}")
 fi
 configure_args+=(LDFLAGS="-L$prefix/lib -R$prefix/lib -lposix4")
@@ -40,6 +41,10 @@ reg prep
 prep()
 {
     generic_prep
+    setdir source
+    # gcc < 4.6.0 will not link -lpthread when -pthread is combined
+    # with -shared (see PR target/18788)
+    ${__gsed} -i '/ex_libs/ s/-pthread/-lpthread/' Configurations/10-main.conf
 }
 
 reg build
