@@ -1,5 +1,8 @@
 CHANGELOG
 ---------
+* Sat Apr 09 2022 Tom G. Christensen <swpkg@jupiterrise.com> - 1.10.0-2
+- Rebuild against OpenSSL 3.x
+
 * Sat Oct 02 2021 Tom G. Christensen <swpkg@jupiterrise.com> - 1.10.0-1
 - Update to 1.10.0
 
