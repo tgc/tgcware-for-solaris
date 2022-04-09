@@ -6,14 +6,16 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=curl
-version=7.79.1
+version=7.82.0
 pkgver=1
 source[0]=http://curl.se/download/$topdir-$version.tar.bz2
 # https://curl.se/docs/caextract.html
-certdate=2021-09-30
+certdate=2022-03-29
 source[1]=https://curl.se/ca/cacert-$certdate.pem
 # If there are no patches, simply comment this
 patch[0]=curl-7.68.0-socklen_t.patch
+# OpenSSH 8.8 disabled sha1 rsa out of the box
+patch[1]=curl-7.82.0-modern-openssh.patch
 
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
@@ -89,6 +91,7 @@ install()
     compat curl 7.75.0 1 1
     compat curl 7.76.0 1 1
     compat curl 7.76.1 1 1
+    compat curl 7.79.1 1 1
 }
 
 reg pack
