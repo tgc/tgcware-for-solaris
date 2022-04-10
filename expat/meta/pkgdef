@@ -2,7 +2,7 @@
 pkgname="${pkgprefix}${topdir}"
 name="$topdir - an XML parser library"
 pkgcat="system"
-pkgvendor="http://expat.sourceforge.net/"
+pkgvendor="https://libexpat.github.io/"
 pkgdesc="An XML parser library"
 pkgver="$pkgver"
 files(-,root,bin)
@@ -14,7 +14,7 @@ $_vdocdir
 pkgname="${pkgprefix}${topdir}d"
 name="expat-devel - Development support"
 pkgcat="system"
-pkgvendor="http://expat.sourceforge.net/"
+pkgvendor="https://libexpat.github.io/"
 pkgdesc="Files needed for developing with expat"
 pkgver="$pkgver"
 files(-,root,bin)
@@ -22,4 +22,5 @@ $_includedir
 $_libdir/libexpat.so
 $_libdir/libexpat.a
 $_libdir/pkgconfig/expat.pc
+$_libdir/cmake/expat-${version}
 
