@@ -6,11 +6,11 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=curl
-version=7.86.0
+version=7.87.0
 pkgver=1
 source[0]=http://curl.se/download/$topdir-$version.tar.bz2
 # https://curl.se/docs/caextract.html
-certdate=2022-10-11
+certdate=2023-01-10
 source[1]=https://curl.se/ca/cacert-$certdate.pem
 # If there are no patches, simply comment this
 patch[0]=curl-7.68.0-socklen_t.patch
