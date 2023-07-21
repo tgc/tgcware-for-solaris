@@ -6,12 +6,12 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=openssh
-version=9.1p1
+version=9.3p2
 pkgver=1
 source[0]=https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/$topdir-$version.tar.gz
 # If there are no patches, simply comment this
-patch[0]=0007-Fix-authopt-test-on-platforms-without-IPv6-support.patch
-patch[1]=0001-Workaround-missing-MAP_ANON.patch
+patch[0]=0001-regress-login-timeout.sh-increase-timeouts.patch
+patch[1]=0007-Fix-authopt-test-on-platforms-without-IPv6-support.patch
 
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
