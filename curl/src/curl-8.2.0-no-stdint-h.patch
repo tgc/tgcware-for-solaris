@@ -1,0 +1,11 @@
+--- curl-8.2.0/lib/http2.c.stdint-h	2023-07-22 10:06:43.080003000 +0000
++++ curl-8.2.0/lib/http2.c	2023-07-22 10:07:13.600003000 +0000
+@@ -25,7 +25,7 @@
+ #include "curl_setup.h"
+ 
+ #ifdef USE_NGHTTP2
+-#include <stdint.h>
++#include <inttypes.h>
+ #include <nghttp2/nghttp2.h>
+ #include "urldata.h"
+ #include "bufq.h"
