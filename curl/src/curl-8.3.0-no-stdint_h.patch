@@ -1,0 +1,20 @@
+--- curl-8.3.0/tests/http/clients/h2-upgrade-extreme.c.stdint_h	2023-09-08 18:03:36.000000000 +0000
++++ curl-8.3.0/tests/http/clients/h2-upgrade-extreme.c	2023-09-14 18:30:14.080001000 +0000
+@@ -27,7 +27,6 @@
+  */
+ #include <stdio.h>
+ #include <stdlib.h>
+-#include <stdint.h>
+ #include <inttypes.h>
+ /* #include <error.h> */
+ #include <errno.h>
+--- curl-8.3.0/tests/http/clients/tls-session-reuse.c.stdint_h	2023-09-08 18:03:36.000000000 +0000
++++ curl-8.3.0/tests/http/clients/tls-session-reuse.c	2023-09-14 18:35:51.400002000 +0000
+@@ -27,7 +27,6 @@
+  */
+ #include <stdio.h>
+ #include <stdlib.h>
+-#include <stdint.h>
+ #include <string.h>
+ #include <inttypes.h>
+ /* #include <error.h> */
