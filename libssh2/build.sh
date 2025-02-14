@@ -6,7 +6,7 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=libssh2
-version=1.11.0
+version=1.11.1
 pkgver=1
 source[0]=http://www.libssh2.org/download/$topdir-$version.tar.gz
 # If there are no patches, simply comment this
@@ -18,7 +18,8 @@ patch[0]=libssh2-1.9.0-missing-stdint_h.patch
 # Global settings
 export CPPFLAGS="-I$prefix/include"
 export LDFLAGS="-L$prefix/lib -R$prefix/lib"
-configure_args+=(--disable-examples-build --disable-static)
+export PATH=$PATH:/usr/tgcware/sbin
+configure_args+=(--disable-examples-build --disable-static --disable-docker-tests)
 
 reg prep
 prep()
@@ -50,6 +51,7 @@ install()
     compat libssh2 1.8.2 1 1
     compat libssh2 1.9.0 1 1
     compat libssh2 1.10.0 1 2
+    compat libssh2 1.11.0 1 2
 }
 
 reg pack
