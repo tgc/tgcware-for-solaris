@@ -6,16 +6,17 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=nghttp2
-version=1.55.1
+version=1.68.0
 pkgver=1
 source[0]=https://github.com/${topdir}/${topdir}/releases/download/v${version}/${topdir}-${version}.tar.xz
 # If there are no patches, simply comment this
-#patch[0]=
+patch[0]=nghttp2-1.68.0-need-limits_h.patch
 
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
 
 # Global settings
+export CC="gcc -std=gnu99 -D__EXTENSIONS__"
 export CPPFLAGS="-I$prefix/include"
 export LDFLAGS="-L$prefix/lib -R$prefix/lib"
 configure_args+=(--disable-static --enable-lib-only)
@@ -61,6 +62,7 @@ install()
     compat nghttp2 1.45.1 1 1
     compat nghttp2 1.47.0 1 1
     compat nghttp2 1.51.0 1 1
+    compat nghttp2 1.55.1 1 1
 }
 
 reg pack
