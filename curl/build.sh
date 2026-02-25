@@ -6,20 +6,19 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=curl
-version=8.8.0
+version=8.18.0
 pkgver=1
-source[0]=http://curl.se/download/$topdir-$version.tar.xz
+source[0]=https://curl.se/download/$topdir-$version.tar.xz
 # https://curl.se/docs/caextract.html
-certdate=2024-03-11
+certdate=2025-12-02
 source[1]=https://curl.se/ca/cacert-$certdate.pem
 # If there are no patches, simply comment this
-patch[0]=curl-7.68.0-socklen_t.patch
-# OpenSSH 8.8 disabled sha1 rsa out of the box
-patch[1]=curl-7.82.0-modern-openssh.patch
+patch[0]=curl-8.17.0-socklen_t.patch
 # No stdint.h
-patch[2]=curl-8.2.0-no-stdint-h.patch
-patch[3]=curl-8.3.0-no-stdint_h.patch
-patch[4]=curl-8.8.0-no-stdint_h.patch
+patch[1]=curl-8.18.0-no-stdint-h.patch
+patch[2]=curl-8.8.0-no-stdint_h.patch
+# No %z modifier can be used in the testsuite
+patch[3]=curl-8.18.0-no-printf-z-modifiers.patch
 
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
@@ -31,7 +30,7 @@ export PKG_CONFIG=pkgconf
 
 # Prefer the X/Open feature set to get utimes() defined
 export CC="gcc -D__EXTENSIONS__ -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED=1"
-configure_args+=(--enable-static=no --with-openssl --enable-http --enable-ftp --enable-file --disable-ldap --enable-manual --enable-cookies --with-libidn2 --with-libssh2 --with-nghttp2 --with-ca-bundle=${prefix}/${_sysconfdir}/curl-ca-bundle.pem --disable-threaded-resolver)
+configure_args+=(--enable-static=no --with-openssl --enable-http --enable-ftp --enable-file --disable-ldap --enable-manual --enable-cookies --with-libidn2 --with-libssh2 --with-nghttp2 --with-ca-bundle=${prefix}/${_sysconfdir}/curl-ca-bundle.pem --disable-threaded-resolver --without-libpsl)
 
 reg prep
 prep()
@@ -59,8 +58,8 @@ install()
 {
     generic_install DESTDIR
     ${__install} -m0644 -D $(get_source_absfilename "${source[1]}") ${stagedir}${prefix}/${_sysconfdir}/curl-ca-bundle.pem
-    doc CHANGES COPYING README* RELEASE-NOTES docs/FAQ docs/FEATURES.md docs/BUGS.md \
-      docs/TODO docs/TheArtOfHttpScripting.md \
+    doc CHANGES.md COPYING README* RELEASE-NOTES docs/FAQ.md docs/FEATURES.md docs/BUGS.md \
+      docs/TODO.md docs/TheArtOfHttpScripting.md docs/HSTS.md docs/CIPHERS* \
       docs/examples/*.c docs/examples/Makefile.example
 
     # ABI compatible releases
@@ -71,7 +70,7 @@ install()
 	7.21.6 7.33.0 7.36.0 7.37.1 7.38.1 7.41.0 7.42.0 7.42.1 7.44.0 \
 	7.45.0 7.46.0 7.48.0 7.49.0 7.50.0 7.50.3 7.51.0 7.52.1 7.55.1 \
 	7.59.0 7.61.1 7.64.0 7.64.1 7.69.1 7.72.0 7.73.0 7.75.0 7.76.0 \
-	7.76.1 7.79.1 7.82.0 7.83.1 7.87.0 8.2.0 8.3.0 8.4.0
+	7.76.1 7.79.1 7.82.0 7.83.1 7.87.0 8.2.0 8.3.0 8.4.0 8.8.0
     do
 	compat curl $release 1 1
     done

@@ -1,0 +1,12 @@
+diff -up curl-8.17.0/include/curl/system.h.orig curl-8.17.0/include/curl/system.h
+--- curl-8.17.0/include/curl/system.h.orig	2025-11-05 08:00:46.000000000 +0100
++++ curl-8.17.0/include/curl/system.h	2026-02-15 12:05:56.258180000 +0100
+@@ -357,7 +357,7 @@
+ #      define CURL_CTZ64(x)            __builtin_ctzl(x)
+ #    endif
+ #  endif
+-#  define CURL_TYPEOF_CURL_SOCKLEN_T socklen_t
++#  define CURL_TYPEOF_CURL_SOCKLEN_T int
+ #  define CURL_PULL_SYS_TYPES_H      1
+ #  define CURL_PULL_SYS_SOCKET_H     1
+ 
