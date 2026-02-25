@@ -6,11 +6,11 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=libidn2
-version=2.3.7
+version=2.3.8
 pkgver=1
-source[0]=http://www.mirrorservice.org/sites/ftp.gnu.org/gnu/libidn/$topdir-$version.tar.gz
+source[0]=https://www.mirrorservice.org/sites/ftp.gnu.org/gnu/libidn/$topdir-$version.tar.gz
 # If there are no patches, simply comment this
-#patch[0]=
+patch[0]=libidn2-2.3.8-no-stdint_h.patch
 
 # Source function library
 . ${BUILDPKG_SCRIPTS}/buildpkg.functions
@@ -53,6 +53,7 @@ install()
     compat libidn2 2.1.1a 1 1
     compat libidn2 2.3.0 1 1
     compat libidn2 2.3.2 1 1
+    compat libidn2 2.3.7 1 1
 }
 
 reg pack

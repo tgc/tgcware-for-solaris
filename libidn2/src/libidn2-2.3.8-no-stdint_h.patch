@@ -1,0 +1,11 @@
+--- libidn2-2.3.8/lib/idn2.h.in.stdint_h	2025-03-08 21:51:42.000000000 +0000
++++ libidn2-2.3.8/lib/idn2.h.in	2026-02-25 17:35:28.680002000 +0000
+@@ -52,7 +52,7 @@
+ #endif
+ /* *INDENT-ON* */
+ 
+-# include <stdint.h>		/* uint32_t */
++# include <inttypes.h>		/* uint32_t */
+ # include <string.h>		/* size_t */
+ 
+ # ifdef __cplusplus
