@@ -1,0 +1,26 @@
+From b4fa4c8876ebc2a5241ea22fcb09eaeb40621380 Mon Sep 17 00:00:00 2001
+From: "Tom G. Christensen" <tgc@jupiterrise.com>
+Date: Wed, 18 Mar 2026 20:47:39 +0100
+Subject: [PATCH 1/6] Use int instead of socklen_t with generic gcc config
+
+For Solaris < 7 with gcc.
+---
+ include/curl/system.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/curl/system.h b/include/curl/system.h
+index 064833d6e1..a60866ff71 100644
+--- a/include/curl/system.h
++++ b/include/curl/system.h
+@@ -348,7 +348,7 @@
+ #      define CURL_CTZ64(x)            __builtin_ctzl(x)
+ #    endif
+ #  endif
+-#  define CURL_TYPEOF_CURL_SOCKLEN_T socklen_t
++#  define CURL_TYPEOF_CURL_SOCKLEN_T int
+ #  define CURL_PULL_SYS_TYPES_H      1
+ #  define CURL_PULL_SYS_SOCKET_H     1
+ 
+-- 
+2.53.0
+

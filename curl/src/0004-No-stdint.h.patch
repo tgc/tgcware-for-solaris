@@ -1,0 +1,38 @@
+From dc98021b89d4ce59f0b68b3f5dfacb8d61c2c6a5 Mon Sep 17 00:00:00 2001
+From: "Tom G. Christensen" <tgc@jupiterrise.com>
+Date: Wed, 18 Mar 2026 21:26:00 +0100
+Subject: [PATCH 4/6] No stdint.h
+
+---
+ lib/dynhds.h | 1 -
+ lib/http2.c  | 2 +-
+ 2 files changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/lib/dynhds.h b/lib/dynhds.h
+index 27d2ada2d8..e30eb45725 100644
+--- a/lib/dynhds.h
++++ b/lib/dynhds.h
+@@ -173,7 +173,6 @@ CURLcode Curl_dynhds_h1_dprint(struct dynhds *dynhds, struct dynbuf *dbuf);
+ 
+ #ifdef USE_NGHTTP2
+ 
+-#include <stdint.h>
+ #include <nghttp2/nghttp2.h>
+ 
+ nghttp2_nv *Curl_dynhds_to_nva(struct dynhds *dynhds, size_t *pcount);
+diff --git a/lib/http2.c b/lib/http2.c
+index db59d8e30d..6046b487b7 100644
+--- a/lib/http2.c
++++ b/lib/http2.c
+@@ -24,7 +24,7 @@
+ #include "curl_setup.h"
+ 
+ #if !defined(CURL_DISABLE_HTTP) && defined(USE_NGHTTP2)
+-#include <stdint.h>
++#include <inttypes.h>
+ #include <nghttp2/nghttp2.h>
+ 
+ #include "urldata.h"
+-- 
+2.53.0
+

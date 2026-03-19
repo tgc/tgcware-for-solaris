@@ -1,53 +1,71 @@
-diff -up curl-8.18.0/tests/server/mqttd.c.no_z curl-8.18.0/tests/server/mqttd.c
---- curl-8.18.0/tests/server/mqttd.c.no_z	2026-01-07 07:57:50.000000000 +0000
-+++ curl-8.18.0/tests/server/mqttd.c	2026-02-24 20:42:21.643642000 +0000
-@@ -165,7 +165,7 @@ static int connack(FILE *dump, curl_sock
+From 13f7eb50b48ae3a665bff58f78f0e499d8f7ddcc Mon Sep 17 00:00:00 2001
+From: "Tom G. Christensen" <tgc@jupiterrise.com>
+Date: Wed, 18 Mar 2026 20:50:59 +0100
+Subject: [PATCH 2/6] No printf z modifiers in testsuite
+
+For Solaris < 10 where native printf functions do not support the z
+modifier.
+---
+ tests/server/mqttd.c    | 28 ++++++++++++++--------------
+ tests/server/rtspd.c    | 24 ++++++++++++------------
+ tests/server/sockfilt.c | 14 +++++++-------
+ tests/server/socksd.c   | 38 +++++++++++++++++++-------------------
+ tests/server/sws.c      | 38 +++++++++++++++++++-------------------
+ tests/server/tftpd.c    |  4 ++--
+ tests/server/util.c     |  2 +-
+ 7 files changed, 74 insertions(+), 74 deletions(-)
+
+diff --git a/tests/server/mqttd.c b/tests/server/mqttd.c
+index 7b5c7c8043..d00c655527 100644
+--- a/tests/server/mqttd.c
++++ b/tests/server/mqttd.c
+@@ -173,7 +173,7 @@ static int connack(FILE *dump, curl_socket_t fd)
  
-   rc = swrite(fd, (char *)packet, sizeof(packet));
+   rc = swrite(fd, packet, sizeof(packet));
    if(rc > 0) {
 -    logmsg("WROTE %zd bytes [CONNACK]", rc);
 +    logmsg("WROTE %d bytes [CONNACK]", rc);
      loghex(packet, rc);
-     logprotocol(FROM_SERVER, "CONNACK", 2, dump, packet, sizeof(packet));
-   }
-@@ -189,7 +189,7 @@ static int suback(FILE *dump, curl_socke
+     logprotocol(FROM_SERVER, "CONNACK", packet[1], dump,
+                 packet, sizeof(packet));
+@@ -198,7 +198,7 @@ static int suback(FILE *dump, curl_socket_t fd, unsigned short packetid)
  
-   rc = swrite(fd, (char *)packet, sizeof(packet));
+   rc = swrite(fd, packet, sizeof(packet));
    if(rc == sizeof(packet)) {
 -    logmsg("WROTE %zd bytes [SUBACK]", rc);
 +    logmsg("WROTE %d bytes [SUBACK]", rc);
      loghex(packet, rc);
      logprotocol(FROM_SERVER, "SUBACK", 3, dump, packet, rc);
      return 0;
-@@ -211,7 +211,7 @@ static int puback(FILE *dump, curl_socke
+@@ -220,7 +220,7 @@ static int puback(FILE *dump, curl_socket_t fd, unsigned short packetid)
  
-   rc = swrite(fd, (char *)packet, sizeof(packet));
+   rc = swrite(fd, packet, sizeof(packet));
    if(rc == sizeof(packet)) {
 -    logmsg("WROTE %zd bytes [PUBACK]", rc);
 +    logmsg("WROTE %d bytes [PUBACK]", rc);
      loghex(packet, rc);
      logprotocol(FROM_SERVER, dump, packet, rc);
      return 0;
-@@ -229,7 +229,7 @@ static int disconnect(FILE *dump, curl_s
+@@ -238,7 +238,7 @@ static int disconnect(FILE *dump, curl_socket_t fd)
    };
-   ssize_t rc = swrite(fd, (char *)packet, sizeof(packet));
+   ssize_t rc = swrite(fd, packet, sizeof(packet));
    if(rc == sizeof(packet)) {
 -    logmsg("WROTE %zd bytes [DISCONNECT]", rc);
 +    logmsg("WROTE %d bytes [DISCONNECT]", rc);
      loghex(packet, rc);
      logprotocol(FROM_SERVER, "DISCONNECT", 0, dump, packet, rc);
      return 0;
-@@ -353,7 +353,7 @@ static int publish(FILE *dump,
+@@ -363,7 +363,7 @@ static int publish(FILE *dump,
  
-   rc = swrite(fd, (char *)packet, sendamount);
+   rc = swrite(fd, packet, sendamount);
    if(rc > 0) {
 -    logmsg("WROTE %zd bytes [PUBLISH]", rc);
 +    logmsg("WROTE %d bytes [PUBLISH]", rc);
      loghex(packet, rc);
      logprotocol(FROM_SERVER, "PUBLISH", remaininglength, dump, packet, rc);
    }
-@@ -380,10 +380,10 @@ static int fixedheader(curl_socket_t fd,
-   ssize_t rc = sread(fd, (char *)buffer, 2);
+@@ -390,10 +390,10 @@ static int fixedheader(curl_socket_t fd,
+   ssize_t rc = sread(fd, buffer, 2);
    size_t i;
    if(rc < 2) {
 -    logmsg("READ %zd bytes [SHORT!]", rc);
@@ -59,7 +77,7 @@ diff -up curl-8.18.0/tests/server/mqttd.c.no_z curl-8.18.0/tests/server/mqttd.c
    loghex(buffer, rc);
    *bytep = buffer[0];
  
-@@ -398,7 +398,7 @@ static int fixedheader(curl_socket_t fd,
+@@ -408,7 +408,7 @@ static int fixedheader(curl_socket_t fd,
      }
    }
    *remaining_lengthp = decode_length(&buffer[1], i, remaining_length_bytesp);
@@ -68,7 +86,7 @@ diff -up curl-8.18.0/tests/server/mqttd.c.no_z curl-8.18.0/tests/server/mqttd.c
           *remaining_length_bytesp);
    return 0;
  }
-@@ -463,7 +463,7 @@ static curl_socket_t mqttit(curl_socket_
+@@ -473,7 +473,7 @@ static curl_socket_t mqttit(curl_socket_t fd)
        buff_size = remaining_length;
        newbuffer = realloc(buffer, buff_size);
        if(!newbuffer) {
@@ -77,16 +95,16 @@ diff -up curl-8.18.0/tests/server/mqttd.c.no_z curl-8.18.0/tests/server/mqttd.c
          goto end;
        }
        buffer = newbuffer;
-@@ -473,7 +473,7 @@ static curl_socket_t mqttit(curl_socket_
+@@ -483,7 +483,7 @@ static curl_socket_t mqttit(curl_socket_t fd)
        /* reading variable header and payload into buffer */
-       rc = sread(fd, (char *)buffer, remaining_length);
+       rc = sread(fd, buffer, remaining_length);
        if(rc > 0) {
 -        logmsg("READ %zd bytes", rc);
 +        logmsg("READ %d bytes", rc);
          loghex(buffer, rc);
        }
      }
-@@ -511,7 +511,7 @@ static curl_socket_t mqttit(curl_socket_
+@@ -521,7 +521,7 @@ static curl_socket_t mqttit(curl_socket_t fd)
  
        /* check the length of the payload */
        if((ssize_t)payload_len != (rc - 12)) {
@@ -95,7 +113,7 @@ diff -up curl-8.18.0/tests/server/mqttd.c.no_z curl-8.18.0/tests/server/mqttd.c
                 rc - 12, payload_len);
          goto end;
        }
-@@ -552,7 +552,7 @@ static curl_socket_t mqttit(curl_socket_
+@@ -562,7 +562,7 @@ static curl_socket_t mqttit(curl_socket_t fd)
        /* two bytes topic length */
        topic_len = (size_t)(buffer[2] << 8) | buffer[3];
        if(topic_len != (remaining_length - 5)) {
@@ -104,7 +122,7 @@ diff -up curl-8.18.0/tests/server/mqttd.c.no_z curl-8.18.0/tests/server/mqttd.c
                 topic_len, remaining_length - 5);
          goto end;
        }
-@@ -606,7 +606,7 @@ static curl_socket_t mqttit(curl_socket_
+@@ -616,7 +616,7 @@ static curl_socket_t mqttit(curl_socket_t fd)
        logprotocol(FROM_CLIENT, "PUBLISH", remaining_length, dump, buffer, rc);
  
        topiclen = (size_t)(buffer[1 + bytes] << 8) | buffer[2 + bytes];
@@ -113,20 +131,21 @@ diff -up curl-8.18.0/tests/server/mqttd.c.no_z curl-8.18.0/tests/server/mqttd.c
  
  #ifdef QOS
        /* Handle packetid if there is one. Send puback if QoS > 0 */
-@@ -616,7 +616,7 @@ static curl_socket_t mqttit(curl_socket_
+@@ -626,7 +626,7 @@ static curl_socket_t mqttit(curl_socket_t fd)
        /* get the request */
-       rc = sread(fd, (char *)&buffer[0], 2);
+       rc = sread(fd, &buffer[0], 2);
  
 -      logmsg("READ %zd bytes [DISCONNECT]", rc);
 +      logmsg("READ %d bytes [DISCONNECT]", rc);
        loghex(buffer, rc);
        logprotocol(FROM_CLIENT, "DISCONNECT", 0, dump, buffer, rc);
        goto end;
-diff -up curl-8.18.0/tests/server/rtspd.c.no_z curl-8.18.0/tests/server/rtspd.c
---- curl-8.18.0/tests/server/rtspd.c.no_z	2026-01-07 07:57:50.000000000 +0000
-+++ curl-8.18.0/tests/server/rtspd.c	2026-02-24 20:40:53.952112000 +0000
-@@ -333,7 +333,7 @@ static int rtspd_ProcessRequest(struct r
-                   req->rtp_buffersize += rtp_size + 4;
+diff --git a/tests/server/rtspd.c b/tests/server/rtspd.c
+index 31820008f0..838eae7612 100644
+--- a/tests/server/rtspd.c
++++ b/tests/server/rtspd.c
+@@ -339,7 +339,7 @@ static int rtspd_ProcessRequest(struct rtspd_httprequest *req)
+                     logmsg("failed resizing buffer.");
                    free(rtp_scratch);
                  }
 -                logmsg("rtp_buffersize is %zu, rtp_size is %d.",
@@ -134,7 +153,7 @@ diff -up curl-8.18.0/tests/server/rtspd.c.no_z curl-8.18.0/tests/server/rtspd.c
                         req->rtp_buffersize, rtp_size);
                }
              }
-@@ -430,9 +430,9 @@ static int rtspd_ProcessRequest(struct r
+@@ -436,9 +436,9 @@ static int rtspd_ProcessRequest(struct rtspd_httprequest *req)
        }
        req->cl = (size_t)clen - req->skip;
  
@@ -146,7 +165,7 @@ diff -up curl-8.18.0/tests/server/rtspd.c.no_z curl-8.18.0/tests/server/rtspd.c
        break;
      }
      else if(!CURL_STRNICMP("Transfer-Encoding: chunked", line,
-@@ -476,7 +476,7 @@ static int rtspd_ProcessRequest(struct r
+@@ -482,7 +482,7 @@ static int rtspd_ProcessRequest(struct rtspd_httprequest *req)
      req->ntlm = TRUE; /* NTLM found */
      logmsg("Received NTLM type-3, sending back data %ld", req->partno);
      if(req->cl) {
@@ -155,7 +174,7 @@ diff -up curl-8.18.0/tests/server/rtspd.c.no_z curl-8.18.0/tests/server/rtspd.c
      }
    }
    else if(!req->ntlm &&
-@@ -579,11 +579,11 @@ static void rtspd_storerequest(char *req
+@@ -585,11 +585,11 @@ static void rtspd_storerequest(const char *reqbuf, size_t totalsize)
    } while((writeleft > 0) && (error == EINTR));
  
    if(writeleft == 0)
@@ -169,7 +188,7 @@ diff -up curl-8.18.0/tests/server/rtspd.c.no_z curl-8.18.0/tests/server/rtspd.c
             totalsize - writeleft, totalsize, dumpfile);
    }
  
-@@ -671,7 +671,7 @@ static int rtspd_get_request(curl_socket
+@@ -677,7 +677,7 @@ static int rtspd_get_request(curl_socket_t sock, struct rtspd_httprequest *req)
        return 1;
      }
  
@@ -178,7 +197,7 @@ diff -up curl-8.18.0/tests/server/rtspd.c.no_z curl-8.18.0/tests/server/rtspd.c
  
      req->offset += (size_t)got;
      reqbuf[req->offset] = '\0';
-@@ -896,7 +896,7 @@ static int rtspd_send_doc(curl_socket_t
+@@ -902,7 +902,7 @@ static int rtspd_send_doc(curl_socket_t sock, struct rtspd_httprequest *req)
        break;
      }
      else {
@@ -187,7 +206,7 @@ diff -up curl-8.18.0/tests/server/rtspd.c.no_z curl-8.18.0/tests/server/rtspd.c
      }
      /* write to file as well */
      fwrite(buffer, 1, (size_t)written, dump);
-@@ -909,7 +909,7 @@ static int rtspd_send_doc(curl_socket_t
+@@ -915,7 +915,7 @@ static int rtspd_send_doc(curl_socket_t sock, struct rtspd_httprequest *req)
  
    /* Send out any RTP data */
    if(req->rtp_buffer) {
@@ -196,7 +215,7 @@ diff -up curl-8.18.0/tests/server/rtspd.c.no_z curl-8.18.0/tests/server/rtspd.c
      count = req->rtp_buffersize;
      do {
        size_t num = count;
-@@ -940,15 +940,15 @@ static int rtspd_send_doc(curl_socket_t
+@@ -946,15 +946,15 @@ static int rtspd_send_doc(curl_socket_t sock, struct rtspd_httprequest *req)
    }
  
    if(sendfailure) {
@@ -215,10 +234,11 @@ diff -up curl-8.18.0/tests/server/rtspd.c.no_z curl-8.18.0/tests/server/rtspd.c
           responsesize, responsedump);
    free(ptr);
  
-diff -up curl-8.18.0/tests/server/sockfilt.c.no_z curl-8.18.0/tests/server/sockfilt.c
---- curl-8.18.0/tests/server/sockfilt.c.no_z	2026-01-07 07:57:50.000000000 +0000
-+++ curl-8.18.0/tests/server/sockfilt.c	2026-02-24 20:41:59.062354000 +0000
-@@ -224,7 +224,7 @@ static ssize_t fullread(int filedes, voi
+diff --git a/tests/server/sockfilt.c b/tests/server/sockfilt.c
+index 61d81aeff7..4c0d6df2dc 100644
+--- a/tests/server/sockfilt.c
++++ b/tests/server/sockfilt.c
+@@ -224,7 +224,7 @@ static ssize_t fullread(int filedes, void *buffer, size_t nbytes)
    } while((size_t)nread < nbytes);
  
    if(verbose)
@@ -227,7 +247,7 @@ diff -up curl-8.18.0/tests/server/sockfilt.c.no_z curl-8.18.0/tests/server/sockf
  
    return nread;
  }
-@@ -273,7 +273,7 @@ static ssize_t fullwrite(int filedes, co
+@@ -273,7 +273,7 @@ static ssize_t fullwrite(int filedes, const void *buffer, size_t nbytes)
    } while((size_t)nwrite < nbytes);
  
    if(verbose)
@@ -236,7 +256,7 @@ diff -up curl-8.18.0/tests/server/sockfilt.c.no_z curl-8.18.0/tests/server/sockf
  
    return nwrite;
  }
-@@ -379,11 +379,11 @@ static bool read_data_block(unsigned cha
+@@ -379,11 +379,11 @@ static bool read_data_block(unsigned char *buffer, ssize_t maxlen,
    }
    *buffer_len = (ssize_t)value;
    if(*buffer_len > maxlen) {
@@ -251,7 +271,7 @@ diff -up curl-8.18.0/tests/server/sockfilt.c.no_z curl-8.18.0/tests/server/sockf
  
    if(!read_stdin(buffer, *buffer_len))
      return FALSE;
-@@ -1118,7 +1118,7 @@ static bool juggle(curl_socket_t *sockfd
+@@ -1094,7 +1094,7 @@ static bool juggle(curl_socket_t *sockfdp,
          /* send away on the socket */
          ssize_t bytes_written = swrite(sockfd, buffer, buffer_len);
          if(bytes_written != buffer_len) {
@@ -260,7 +280,7 @@ diff -up curl-8.18.0/tests/server/sockfilt.c.no_z curl-8.18.0/tests/server/sockf
                   buffer_len, bytes_written);
          }
        }
-@@ -1173,7 +1173,7 @@ static bool juggle(curl_socket_t *sockfd
+@@ -1149,7 +1149,7 @@ static bool juggle(curl_socket_t *sockfdp,
        if(!write_stdout(buffer, nread_socket))
          return FALSE;
  
@@ -269,10 +289,11 @@ diff -up curl-8.18.0/tests/server/sockfilt.c.no_z curl-8.18.0/tests/server/sockf
        lograw(buffer, nread_socket);
      }
  
-diff -up curl-8.18.0/tests/server/socksd.c.no_z curl-8.18.0/tests/server/socksd.c
---- curl-8.18.0/tests/server/socksd.c.no_z	2026-01-07 07:57:50.000000000 +0000
-+++ curl-8.18.0/tests/server/socksd.c	2026-02-24 20:40:53.958159000 +0000
-@@ -253,7 +253,7 @@ static curl_socket_t socks4(curl_socket_
+diff --git a/tests/server/socksd.c b/tests/server/socksd.c
+index 8a4840ce69..8c0c8e32d9 100644
+--- a/tests/server/socksd.c
++++ b/tests/server/socksd.c
+@@ -251,7 +251,7 @@ static curl_socket_t socks4(curl_socket_t fd,
      return CURL_SOCKET_BAD;
    }
    if(rc < 9) {
@@ -281,7 +302,7 @@ diff -up curl-8.18.0/tests/server/socksd.c.no_z curl-8.18.0/tests/server/socksd.
      return CURL_SOCKET_BAD;
    }
    if(!s_config.port)
-@@ -280,7 +280,7 @@ static curl_socket_t socks4(curl_socket_
+@@ -278,7 +278,7 @@ static curl_socket_t socks4(curl_socket_t fd,
      logmsg("Sending SOCKS4 response failed!");
      return CURL_SOCKET_BAD;
    }
@@ -290,9 +311,9 @@ diff -up curl-8.18.0/tests/server/socksd.c.no_z curl-8.18.0/tests/server/socksd.
    loghex(response, rc);
  
    if(cd == 90)
-@@ -310,18 +310,18 @@ static curl_socket_t sockit(curl_socket_
+@@ -308,18 +308,18 @@ static curl_socket_t sockit(curl_socket_t fd)
  
-   rc = recv(fd, (char *)buffer, sizeof(buffer), 0);
+   rc = sread(fd, buffer, sizeof(buffer));
    if(rc <= 0) {
 -    logmsg("SOCKS identifier message missing, recv returned %zd", rc);
 +    logmsg("SOCKS identifier message missing, recv returned %d", rc);
@@ -312,7 +333,7 @@ diff -up curl-8.18.0/tests/server/socksd.c.no_z curl-8.18.0/tests/server/socksd.
      return CURL_SOCKET_BAD;
    }
  
-@@ -338,7 +338,7 @@ static curl_socket_t sockit(curl_socket_
+@@ -336,7 +336,7 @@ static curl_socket_t sockit(curl_socket_t fd)
    /* after NMETHODS follows that many bytes listing the methods the client
       says it supports */
    if(rc != (buffer[SOCKS5_NMETHODS] + 2)) {
@@ -321,7 +342,7 @@ diff -up curl-8.18.0/tests/server/socksd.c.no_z curl-8.18.0/tests/server/socksd.
      return CURL_SOCKET_BAD;
    }
    logmsg("Incoming request deemed fine!");
-@@ -351,17 +351,17 @@ static curl_socket_t sockit(curl_socket_
+@@ -349,17 +349,17 @@ static curl_socket_t sockit(curl_socket_t fd)
      logmsg("Sending response failed!");
      return CURL_SOCKET_BAD;
    }
@@ -330,7 +351,7 @@ diff -up curl-8.18.0/tests/server/socksd.c.no_z curl-8.18.0/tests/server/socksd.
    loghex(response, rc);
  
    /* expect the request or auth */
-   rc = recv(fd, (char *)buffer, sizeof(buffer), 0);
+   rc = sread(fd, buffer, sizeof(buffer));
    if(rc <= 0) {
 -    logmsg("SOCKS5 request or auth message missing, recv returned %zd", rc);
 +    logmsg("SOCKS5 request or auth message missing, recv returned %d", rc);
@@ -342,7 +363,7 @@ diff -up curl-8.18.0/tests/server/socksd.c.no_z curl-8.18.0/tests/server/socksd.
    loghex(buffer, rc);
  
    if(s_config.responsemethod == 2) {
-@@ -376,7 +376,7 @@ static curl_socket_t sockit(curl_socket_
+@@ -374,7 +374,7 @@ static curl_socket_t sockit(curl_socket_t fd)
      unsigned char plen;
      bool login = TRUE;
      if(rc < 5) {
@@ -351,7 +372,7 @@ diff -up curl-8.18.0/tests/server/socksd.c.no_z curl-8.18.0/tests/server/socksd.
        return CURL_SOCKET_BAD;
      }
      if(buffer[SOCKS5_VERSION] != 1) {
-@@ -385,12 +385,12 @@ static curl_socket_t sockit(curl_socket_
+@@ -383,12 +383,12 @@ static curl_socket_t sockit(curl_socket_t fd)
      }
      ulen = buffer[SOCKS5_ULEN];
      if(rc < 4 + ulen) {
@@ -366,7 +387,7 @@ diff -up curl-8.18.0/tests/server/socksd.c.no_z curl-8.18.0/tests/server/socksd.
        return CURL_SOCKET_BAD;
      }
      if((ulen != strlen(s_config.user)) ||
-@@ -408,7 +408,7 @@ static curl_socket_t sockit(curl_socket_
+@@ -406,7 +406,7 @@ static curl_socket_t sockit(curl_socket_t fd)
        logmsg("Sending auth response failed!");
        return CURL_SOCKET_BAD;
      }
@@ -375,9 +396,9 @@ diff -up curl-8.18.0/tests/server/socksd.c.no_z curl-8.18.0/tests/server/socksd.
      loghex(response, rc);
      if(!login)
        return CURL_SOCKET_BAD;
-@@ -416,15 +416,15 @@ static curl_socket_t sockit(curl_socket_
+@@ -414,15 +414,15 @@ static curl_socket_t sockit(curl_socket_t fd)
      /* expect the request */
-     rc = recv(fd, (char *)buffer, sizeof(buffer), 0);
+     rc = sread(fd, buffer, sizeof(buffer));
      if(rc <= 0) {
 -      logmsg("SOCKS5 request message missing, recv returned %zd", rc);
 +      logmsg("SOCKS5 request message missing, recv returned %d", rc);
@@ -394,7 +415,7 @@ diff -up curl-8.18.0/tests/server/socksd.c.no_z curl-8.18.0/tests/server/socksd.
      return CURL_SOCKET_BAD;
    }
  
-@@ -469,7 +469,7 @@ static curl_socket_t sockit(curl_socket_
+@@ -467,7 +467,7 @@ static curl_socket_t sockit(curl_socket_t fd)
      return CURL_SOCKET_BAD;
    }
    if(rc < (4 + len + 2)) {
@@ -403,7 +424,7 @@ diff -up curl-8.18.0/tests/server/socksd.c.no_z curl-8.18.0/tests/server/socksd.
      return CURL_SOCKET_BAD;
    }
    logmsg("Received ATYP %d", type);
-@@ -555,7 +555,7 @@ static curl_socket_t sockit(curl_socket_
+@@ -552,7 +552,7 @@ static curl_socket_t sockit(curl_socket_t fd)
      logmsg("Sending connect response failed!");
      return CURL_SOCKET_BAD;
    }
@@ -412,7 +433,7 @@ diff -up curl-8.18.0/tests/server/socksd.c.no_z curl-8.18.0/tests/server/socksd.
    loghex(response, rc);
  
    if(!rep)
-@@ -735,7 +735,7 @@ static bool socksd_incoming(curl_socket_
+@@ -711,7 +711,7 @@ static bool socksd_incoming(curl_socket_t listenfd)
        struct perclient *cp = &c[i];
        if(cp->used) {
          if(tunnel(cp, &fds_read)) {
@@ -421,10 +442,11 @@ diff -up curl-8.18.0/tests/server/socksd.c.no_z curl-8.18.0/tests/server/socksd.
                   cp->fromremote, cp->fromclient);
            sclose(cp->clientfd);
            sclose(cp->remotefd);
-diff -up curl-8.18.0/tests/server/sws.c.no_z curl-8.18.0/tests/server/sws.c
---- curl-8.18.0/tests/server/sws.c.no_z	2026-01-07 07:57:50.000000000 +0000
-+++ curl-8.18.0/tests/server/sws.c	2026-02-24 20:40:53.964133000 +0000
-@@ -314,7 +314,7 @@ static int sws_ProcessRequest(struct sws
+diff --git a/tests/server/sws.c b/tests/server/sws.c
+index c73a34c6a2..4eecf2613d 100644
+--- a/tests/server/sws.c
++++ b/tests/server/sws.c
+@@ -341,7 +341,7 @@ static int sws_ProcessRequest(struct sws_httprequest *req)
  
    req->callcount++;
  
@@ -433,7 +455,7 @@ diff -up curl-8.18.0/tests/server/sws.c.no_z curl-8.18.0/tests/server/sws.c
           req->callcount > 1 ? " [CONTINUED]" : "");
  
    /* try to figure out the request characteristics as soon as possible, but
-@@ -573,9 +573,9 @@ static int sws_ProcessRequest(struct sws
+@@ -600,9 +600,9 @@ static int sws_ProcessRequest(struct sws_httprequest *req)
        else
          req->cl = (size_t)clen - req->skip;
  
@@ -445,7 +467,7 @@ diff -up curl-8.18.0/tests/server/sws.c.no_z curl-8.18.0/tests/server/sws.c
      }
      else if(!CURL_STRNICMP("Transfer-Encoding: chunked", line,
                             strlen("Transfer-Encoding: chunked"))) {
-@@ -654,7 +654,7 @@ static int sws_ProcessRequest(struct sws
+@@ -681,7 +681,7 @@ static int sws_ProcessRequest(struct sws_httprequest *req)
      req->ntlm = TRUE; /* NTLM found */
      logmsg("Received NTLM type-3, sending back data %ld", req->partno);
      if(req->cl) {
@@ -454,7 +476,7 @@ diff -up curl-8.18.0/tests/server/sws.c.no_z curl-8.18.0/tests/server/sws.c
      }
    }
    else if(!req->ntlm &&
-@@ -754,11 +754,11 @@ static void sws_storerequest(const char
+@@ -781,11 +781,11 @@ static void sws_storerequest(const char *reqbuf, size_t totalsize)
    } while((writeleft > 0) && (error == EINTR));
  
    if(writeleft == 0)
@@ -468,25 +490,7 @@ diff -up curl-8.18.0/tests/server/sws.c.no_z curl-8.18.0/tests/server/sws.c
             totalsize - writeleft, totalsize, dumpfile);
    }
  
-@@ -826,7 +826,7 @@ static int sws_get_request(curl_socket_t
-                     sizeof(req->reqbuf) - req->offset);
-         if(got > 0) {
-           req->offset += got;
--          logmsg("Got %zu bytes from client", got);
-+          logmsg("Got %u bytes from client", got);
-         }
- 
-         if((got == -1) &&
-@@ -912,7 +912,7 @@ static int sws_get_request(curl_socket_t
-       return -1;
-     }
- 
--    logmsg("Read %zd bytes", got);
-+    logmsg("Read %d bytes", got);
- 
-     req->offset += (size_t)got;
-     reqbuf[req->offset] = '\0';
-@@ -1144,7 +1144,7 @@ retry:
+@@ -995,7 +995,7 @@ retry:
        int intervals = msecs_left / MAX_SLEEP_TIME_MS;
        if(msecs_left % MAX_SLEEP_TIME_MS)
          intervals++;
@@ -495,7 +499,7 @@ diff -up curl-8.18.0/tests/server/sws.c.no_z curl-8.18.0/tests/server/sws.c
               msecs_left, written);
        while((intervals > 0) && !got_exit_signal) {
          int sleep_time = msecs_left > MAX_SLEEP_TIME_MS ?
-@@ -1168,7 +1168,7 @@ retry:
+@@ -1019,7 +1019,7 @@ retry:
    }
  
    if(sendfailure) {
@@ -504,7 +508,7 @@ diff -up curl-8.18.0/tests/server/sws.c.no_z curl-8.18.0/tests/server/sws.c
             "were sent",
             responsesize - count, responsesize);
      sws_prevtestno = req->testno;
-@@ -1178,7 +1178,7 @@ retry:
+@@ -1029,7 +1029,7 @@ retry:
      return -1;
    }
  
@@ -513,7 +517,25 @@ diff -up curl-8.18.0/tests/server/sws.c.no_z curl-8.18.0/tests/server/sws.c
           responsesize, responsedump);
    free(ptr);
  
-@@ -1627,12 +1627,12 @@ static void http_connect(curl_socket_t *
+@@ -1130,7 +1130,7 @@ static int sws_get_request(curl_socket_t sock, struct sws_httprequest *req)
+                     sizeof(req->reqbuf) - req->offset);
+         if(got > 0) {
+           req->offset += got;
+-          logmsg("Got %zu bytes from client", got);
++          logmsg("Got %u bytes from client", got);
+         }
+ 
+         if((got == -1) &&
+@@ -1209,7 +1209,7 @@ static int sws_get_request(curl_socket_t sock, struct sws_httprequest *req)
+       return -1;
+     }
+ 
+-    logmsg("Read %zd bytes", got);
++    logmsg("Read %d bytes", got);
+ 
+     req->offset += (size_t)got;
+     reqbuf[req->offset] = '\0';
+@@ -1603,12 +1603,12 @@ static void http_connect(curl_socket_t *infdp,
              /* read from client */
              rc = sread(clientfd[i], &readclient[i][tos[i]], len);
              if(rc <= 0) {
@@ -528,7 +550,7 @@ diff -up curl-8.18.0/tests/server/sws.c.no_z curl-8.18.0/tests/server/sws.c
                logmsg("[%s] READ \"%s\"", data_or_ctrl(i),
                       data_to_hex(&readclient[i][tos[i]], rc));
                tos[i] += rc;
-@@ -1645,12 +1645,12 @@ static void http_connect(curl_socket_t *
+@@ -1621,12 +1621,12 @@ static void http_connect(curl_socket_t *infdp,
              /* read from server */
              rc = sread(serverfd[i], &readserver[i][toc[i]], len);
              if(rc <= 0) {
@@ -543,7 +565,7 @@ diff -up curl-8.18.0/tests/server/sws.c.no_z curl-8.18.0/tests/server/sws.c
                logmsg("[%s] READ \"%s\"", data_or_ctrl(i),
                       data_to_hex(&readserver[i][toc[i]], rc));
                toc[i] += rc;
-@@ -1662,13 +1662,13 @@ static void http_connect(curl_socket_t *
+@@ -1638,13 +1638,13 @@ static void http_connect(curl_socket_t *infdp,
              /* write to client */
              rc = swrite(clientfd[i], readserver[i], toc[i]);
              if(rc <= 0) {
@@ -559,7 +581,7 @@ diff -up curl-8.18.0/tests/server/sws.c.no_z curl-8.18.0/tests/server/sws.c
                logmsg("[%s] SENT \"%s\"", data_or_ctrl(i),
                       data_to_hex(readserver[i], rc));
                if(toc[i] - rc)
-@@ -1682,13 +1682,13 @@ static void http_connect(curl_socket_t *
+@@ -1658,13 +1658,13 @@ static void http_connect(curl_socket_t *infdp,
              /* write to server */
              rc = swrite(serverfd[i], readclient[i], tos[i]);
              if(rc <= 0) {
@@ -575,10 +597,11 @@ diff -up curl-8.18.0/tests/server/sws.c.no_z curl-8.18.0/tests/server/sws.c
                logmsg("[%s] SENT \"%s\"", data_or_ctrl(i),
                       data_to_hex(readclient[i], rc));
                if(tos[i] - rc)
-diff -up curl-8.18.0/tests/server/tftpd.c.no_z curl-8.18.0/tests/server/tftpd.c
---- curl-8.18.0/tests/server/tftpd.c.no_z	2026-01-07 07:57:50.000000000 +0000
-+++ curl-8.18.0/tests/server/tftpd.c	2026-02-24 20:41:59.077063000 +0000
-@@ -1215,7 +1215,7 @@ send_data:
+diff --git a/tests/server/tftpd.c b/tests/server/tftpd.c
+index 44e7976f1c..3c6a05321e 100644
+--- a/tests/server/tftpd.c
++++ b/tests/server/tftpd.c
+@@ -742,7 +742,7 @@ send_data:
  #endif
        logmsg("read");
        n = sread(peer, &ackbuf.storage[0], sizeof(ackbuf.storage));
@@ -587,7 +610,7 @@ diff -up curl-8.18.0/tests/server/tftpd.c.no_z curl-8.18.0/tests/server/tftpd.c
  #ifdef HAVE_ALARM
        alarm(0);
  #endif
-@@ -1286,7 +1286,7 @@ send_ack:
+@@ -813,7 +813,7 @@ send_ack:
  #endif
        logmsg("read");
        n = sread(peer, rdp, PKTSIZE);
@@ -596,10 +619,11 @@ diff -up curl-8.18.0/tests/server/tftpd.c.no_z curl-8.18.0/tests/server/tftpd.c
  #ifdef HAVE_ALARM
        alarm(0);
  #endif
-diff -up curl-8.18.0/tests/server/util.c.no_z curl-8.18.0/tests/server/util.c
---- curl-8.18.0/tests/server/util.c.no_z	2026-01-07 07:57:50.000000000 +0000
-+++ curl-8.18.0/tests/server/util.c	2026-02-24 20:41:59.082255000 +0000
-@@ -691,7 +691,7 @@ int bind_unix_socket(curl_socket_t sock,
+diff --git a/tests/server/util.c b/tests/server/util.c
+index f792bd748e..87eb47f97a 100644
+--- a/tests/server/util.c
++++ b/tests/server/util.c
+@@ -671,7 +671,7 @@ int bind_unix_socket(curl_socket_t sock, const char *unix_socket,
    memset(sau, 0, sizeof(struct sockaddr_un));
    sau->sun_family = AF_UNIX;
    if(len >= sizeof(sau->sun_path) - 1) {
@@ -608,3 +632,6 @@ diff -up curl-8.18.0/tests/server/util.c.no_z curl-8.18.0/tests/server/util.c
      return -1;
    }
    curlx_strcopy(sau->sun_path, sizeof(sau->sun_path), unix_socket, len);
+-- 
+2.53.0
+

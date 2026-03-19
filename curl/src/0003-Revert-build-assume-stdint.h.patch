@@ -1,0 +1,222 @@
+From 908aa700e9eae0f74b518a4bdcc6f46b73919ff8 Mon Sep 17 00:00:00 2001
+From: "Tom G. Christensen" <tgc@jupiterrise.com>
+Date: Wed, 18 Mar 2026 21:15:58 +0100
+Subject: [PATCH 3/6] Revert "build: assume `stdint.h`"
+
+This reverts commit feb52be197c695fa783d68c11924f474c2add6b7.
+---
+ CMakeLists.txt             |  1 +
+ configure.ac               |  1 +
+ lib/config-win32.h         |  5 +++++
+ lib/curl_config-cmake.h.in |  3 +++
+ lib/curl_setup.h           | 10 +++-------
+ lib/curlx/timeval.c        |  1 +
+ lib/doh.h                  |  4 ++++
+ lib/dynhds.h               |  1 +
+ lib/formdata.c             |  2 +-
+ lib/hostip.h               |  4 ++++
+ lib/http.h                 |  5 +++++
+ lib/http2.c                |  1 +
+ lib/vtls/cipher_suite.h    |  1 +
+ 13 files changed, 31 insertions(+), 8 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1eb64a9cd2..ba154979a6 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1520,6 +1520,7 @@ check_include_file("poll.h"           HAVE_POLL_H)
+ check_include_file("pwd.h"            HAVE_PWD_H)
+ check_include_file("stdatomic.h"      HAVE_STDATOMIC_H)
+ check_include_file("stdbool.h"        HAVE_STDBOOL_H)
++check_include_file("stdint.h"         HAVE_STDINT_H)
+ check_include_file("strings.h"        HAVE_STRINGS_H)
+ check_include_file("stropts.h"        HAVE_STROPTS_H)
+ check_include_file("termio.h"         HAVE_TERMIO_H)
+diff --git a/configure.ac b/configure.ac
+index 6d2cb5583b..c69b24c917 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -4000,6 +4000,7 @@ AC_CHECK_HEADERS(
+   libgen.h \
+   locale.h \
+   stdbool.h \
++  stdint.h \
+   sys/filio.h \
+   sys/eventfd.h,
+ dnl to do if not found
+diff --git a/lib/config-win32.h b/lib/config-win32.h
+index ddde06a3ef..fd7d584d9a 100644
+--- a/lib/config-win32.h
++++ b/lib/config-win32.h
+@@ -46,6 +46,11 @@
+ #define HAVE_STDBOOL_H 1
+ #endif
+ 
++/* Define to 1 if you have the <stdint.h> header file. */
++#if defined(_MSC_VER) || defined(__MINGW32__)
++#define HAVE_STDINT_H 1
++#endif
++
+ /* Define if you have the <sys/param.h> header file. */
+ #ifdef __MINGW32__
+ #define HAVE_SYS_PARAM_H 1
+diff --git a/lib/curl_config-cmake.h.in b/lib/curl_config-cmake.h.in
+index 1dcab9d897..6270eb1432 100644
+--- a/lib/curl_config-cmake.h.in
++++ b/lib/curl_config-cmake.h.in
+@@ -472,6 +472,9 @@
+ /* Define to 1 if you have the sendmmsg function. */
+ #cmakedefine HAVE_SENDMMSG 1
+ 
++/* Define to 1 if you have the <stdint.h> header file. */
++#cmakedefine HAVE_STDINT_H 1
++
+ /* Define to 1 if you have the 'fsetxattr' function. */
+ #cmakedefine HAVE_FSETXATTR 1
+ 
+diff --git a/lib/curl_setup.h b/lib/curl_setup.h
+index 4f8d65af8b..f9dcff9c37 100644
+--- a/lib/curl_setup.h
++++ b/lib/curl_setup.h
+@@ -499,8 +499,9 @@
+ #include <curl/stdcheaders.h>
+ #endif
+ 
++#if defined(HAVE_STDINT_H) || defined(USE_WOLFSSL)
+ #include <stdint.h>
+-#define HAVE_UINTPTR_T  /* assume uintptr_t is provided by stdint.h */
++#endif
+ 
+ #ifdef __DJGPP__
+ /* By default, DJGPP provides this type as a version of 'unsigned long' which
+@@ -509,11 +510,6 @@
+ #define uint32_t unsigned int
+ #endif
+ 
+-/* Disable uintptr_t for targets known to miss it from stdint.h */
+-#ifdef __OS400__
+-#undef HAVE_UINTPTR_T
+-#endif
+-
+ #include <limits.h>
+ 
+ #ifdef _WIN32
+@@ -850,7 +846,7 @@
+ 
+ /* Macro to strip 'const' without triggering a compiler warning.
+    Use it for APIs that do not or cannot support the const qualifier. */
+-#ifdef HAVE_UINTPTR_T
++#ifdef HAVE_STDINT_H
+ #define CURL_UNCONST(p) ((void *)(uintptr_t)(const void *)(p))
+ #else
+ #define CURL_UNCONST(p) ((void *)(p))  /* Fall back to simple cast */
+diff --git a/lib/curlx/timeval.c b/lib/curlx/timeval.c
+index 435804c299..fe604ac846 100644
+--- a/lib/curlx/timeval.c
++++ b/lib/curlx/timeval.c
+@@ -117,6 +117,7 @@ void curlx_pnow(struct curltime *pnow)
+ 
+ #elif defined(HAVE_MACH_ABSOLUTE_TIME)
+ 
++#include <stdint.h>
+ #include <mach/mach_time.h>
+ 
+ void curlx_pnow(struct curltime *pnow)
+diff --git a/lib/doh.h b/lib/doh.h
+index 3eba4df26e..c3ac523af7 100644
+--- a/lib/doh.h
++++ b/lib/doh.h
+@@ -25,6 +25,10 @@
+  ***************************************************************************/
+ #include "urldata.h"
+ 
++#ifdef USE_HTTPSRR
++# include <stdint.h>
++#endif
++
+ #ifndef CURL_DISABLE_DOH
+ 
+ typedef enum {
+diff --git a/lib/dynhds.h b/lib/dynhds.h
+index e30eb45725..27d2ada2d8 100644
+--- a/lib/dynhds.h
++++ b/lib/dynhds.h
+@@ -173,6 +173,7 @@ CURLcode Curl_dynhds_h1_dprint(struct dynhds *dynhds, struct dynbuf *dbuf);
+ 
+ #ifdef USE_NGHTTP2
+ 
++#include <stdint.h>
+ #include <nghttp2/nghttp2.h>
+ 
+ nghttp2_nv *Curl_dynhds_to_nva(struct dynhds *dynhds, size_t *pcount);
+diff --git a/lib/formdata.c b/lib/formdata.c
+index 3770d28b18..9618b723a0 100644
+--- a/lib/formdata.c
++++ b/lib/formdata.c
+@@ -309,7 +309,7 @@ static CURLFORMcode FormAdd(struct curl_httppost **httppost,
+   struct curl_httppost *lastnode = NULL;
+ 
+ #define form_ptr_arg(t) (forms ? (t)(void *)avalue : va_arg(params, t))
+-#ifdef HAVE_UINTPTR_T
++#ifdef HAVE_STDINT_H
+ #define form_int_arg(t) (forms ? (t)(uintptr_t)avalue : va_arg(params, t))
+ #else
+ #define form_int_arg(t) (forms ? (t)(void *)avalue : va_arg(params, t))
+diff --git a/lib/hostip.h b/lib/hostip.h
+index 6c7f1291b2..1817ec1ba3 100644
+--- a/lib/hostip.h
++++ b/lib/hostip.h
+@@ -28,6 +28,10 @@
+ #include "hash.h"
+ #include "curlx/timeval.h" /* for curltime, timediff_t */
+ 
++#ifdef USE_HTTPSRR
++# include <stdint.h>
++#endif
++
+ /* Allocate enough memory to hold the full name information structs and
+  * everything. OSF1 is known to require at least 8872 bytes. The buffer
+  * required for storing all possible aliases and IP numbers is according to
+diff --git a/lib/http.h b/lib/http.h
+index bb535955d1..7f9e872584 100644
+--- a/lib/http.h
++++ b/lib/http.h
+@@ -58,6 +58,11 @@ extern const struct Curl_scheme Curl_scheme_https;
+ 
+ #ifndef CURL_DISABLE_HTTP
+ 
++#ifdef USE_HTTP3
++#include <stdint.h>
++#endif
++
++
+ struct dynhds;
+ 
+ struct http_negotiation {
+diff --git a/lib/http2.c b/lib/http2.c
+index e1c57986e8..db59d8e30d 100644
+--- a/lib/http2.c
++++ b/lib/http2.c
+@@ -24,6 +24,7 @@
+ #include "curl_setup.h"
+ 
+ #if !defined(CURL_DISABLE_HTTP) && defined(USE_NGHTTP2)
++#include <stdint.h>
+ #include <nghttp2/nghttp2.h>
+ 
+ #include "urldata.h"
+diff --git a/lib/vtls/cipher_suite.h b/lib/vtls/cipher_suite.h
+index 0e185e351e..204a0c1f63 100644
+--- a/lib/vtls/cipher_suite.h
++++ b/lib/vtls/cipher_suite.h
+@@ -26,6 +26,7 @@
+ #include "curl_setup.h"
+ 
+ #if defined(USE_MBEDTLS) || defined(USE_RUSTLS)
++#include <stdint.h>
+ 
+ /* Lookup IANA id for cipher suite string, returns 0 if not recognized */
+ uint16_t Curl_cipher_suite_lookup_id(const char *cs_str, size_t cs_len);
+-- 
+2.53.0
+
