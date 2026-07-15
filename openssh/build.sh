@@ -6,7 +6,7 @@
 ###########################################################
 # Check the following 4 variables before running the script
 topdir=openssh
-version=10.3p1
+version=10.4p1
 pkgver=1
 source[0]=https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/$topdir-$version.tar.gz
 # If there are no patches, simply comment this
@@ -19,7 +19,8 @@ patch[1]=0002-regress-login-timeout.sh-increase-timeouts.patch
 # Global settings
 export LDFLAGS="-R$prefix/lib -L$prefix/lib"
 export CPPFLAGS="-I$prefix/include"
-export CC="gcc -std=gnu99"
+# 4.1 through 4.3 causes a core dump in test_servconf.
+export CC="/usr/tgcware/gcc34/bin/gcc -std=gnu99"
 make_check_target="tests"
 
 configure_args=(--prefix=$prefix --mandir=$prefix/$_mandir \
